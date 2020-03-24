@@ -1,11 +1,54 @@
-\subsection{Project Plan Timeline}
+% something else to pad the portrait page?
 
 \begin{landscape}
+  \subsection{Project Plan Timeline}
+
+  % gantt chart variables
+  \newcommand{\ganttstart}{2020-04-02}
+  \newcommand{\ganttend}{2020-11-09}
+  \newcommand{\ganttdays}{222}
+  \newcommand{\ganttthesisend}{2020-06-20}
+  \newcommand{\ganttseminar}{2020-05-22}
+  \newcommand{\ganttdemonstration}{2020-10-23}
+  \newcommand{\ganttformalmodelstart}{\ganttstart}
+  \newcommand{\ganttformalmodelend}{2020-04-30}
+  \newcommand{\ganttsimulationstart}{\ganttstart}
+  \newcommand{\ganttsimulationend}{2020-06-15}
+  \newcommand{\ganttsimulationlogicstart}{\ganttstart}
+  \newcommand{\ganttsimulationlogicend}{2020-06-01}
+  \newcommand{\ganttsimulationvisualstart}{2020-05-15}
+  \newcommand{\ganttsimulationvisualend}{\ganttsimulationend}
+  \newcommand{\ganttoptimisestart}{2020-06-20}
+  \newcommand{\ganttoptimiseend}{2020-08-15}
+  \newcommand{\ganttnashstart}{2020-08-20}
+  \newcommand{\ganttnashend}{2020-09-22}
+
   \begin{ganttchart}[
-    hgrid,
-    x unit = 0.10cm,
-    time slot format=isodate
-  ]{2020-02-24}{2020-11-02}
-    \gantttitlecalendar{month}
+      milestone label font=\tiny,
+      group label font=\tiny,
+      title label font=\tiny,
+      bar label node/.style={text width=3cm,align=right,font=\scriptsize\RaggedLeft,anchor=east},
+      milestone label node/.style={text width=2cm,align=right,font=\scriptsize\RaggedLeft,anchor=east},
+      group label node/.style={text width=3cm,align=right,font=\scriptsize\RaggedLeft,anchor=east},
+      x unit = 0.104cm,
+      time slot format=isodate
+    ]{\ganttstart}{\ganttend}
+    \hbadness=10000
+    \gantttitlecalendar{month=shortname} \\
+
+    \ganttbar{Project Proposal}{\ganttstart}{\ganttstart} \\
+    \ganttbar{Formal Modelling}{\ganttstart}{\ganttformalmodelend} \\
+    \ganttmilestone{Seminar}{\ganttseminar} \\
+    \ganttgroup{Implement Model Simulation}{\ganttsimulationstart}{\ganttsimulationend} \\
+    \ganttbar{Implement Model Logic}{\ganttsimulationlogicstart}{\ganttsimulationlogicend} \\
+    \ganttbar{Visualize Model Results}{\ganttsimulationvisualstart}{\ganttsimulationvisualend} \\
+    \ganttbar{Optimise Model Parameters}{\ganttoptimisestart}{\ganttoptimiseend} \\
+    \ganttbar{Derive Nash Equlibrium}{\ganttnashstart}{\ganttnashend} \\
+    \ganttmilestone{Demonstration}{\ganttdemonstration} \\
+    \ganttbar{Thesis}{\ganttthesisend}{\ganttend}    
+
+    \ganttlink{elem6}{elem7}
+    \ganttlink{elem3}{elem6}
+    \ganttlink{elem3}{elem9}
   \end{ganttchart}
 \end{landscape}
