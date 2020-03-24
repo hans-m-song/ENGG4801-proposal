@@ -1,39 +1,30 @@
 \subsection{Milestones}
 
-Milestones outlined below will be used to judge the progress of the project. 
+\paragraph{} Milestones outlined below will be used to judge the progress of the project. A Gantt chart of the below milestones and assessment items can be found in Appendix \ref{appendix:gantt}
 
-\subsubsection{Formally define and model the game}
+\subsubsection{Formal Modelling}
 
-The game must first be broken down into its key components of entities and behaviour for mathematical modelling. 
+\paragraph{} Firstly, the game must be deconstructed into components and their relationships. This is required to not only define the general scope of simulatable interactions, but also to provide a foundation on which to abstract behaviours that may be difficult to model deterministically.
 
-\begin{itemize}
-  \item Define each entity
-  \item Define interactions
-  \item Derive equations
-\end{itemize}
+\subsubsection{Implement Model Simulation}
 
-\subsubsection{Implement simulation of the model}
+\paragraph{} As there are many adjustable parameters that may have a large impact on the balance and potentially several probabilistic factors, a simulation provides an avenue of automated experiementation to explore and evaluate the model.
 
-\begin{itemize}
-  \item Implement entities
-  \item Implement equations
-  \item Implement interactions
-\end{itemize}
+\paragraph{Implement Model Logic}
 
-\subsubsection{Visualisation of simulation results}
+\paragraph{} The mathematical model must be implemented with special considerations to the probabilistic properties of the auction. \comment{not sure about this} JavaScript was the chosen language to implement due to its event driven concurrency model. This milestone includes the implementation of the individual entities, interactions based on the mathematical model, and the event driven auction system.
 
-\begin{itemize}
-  \item Parse resultant data from implementation
-  \item Visualise results
-\end{itemize}
+\paragraph{Visualize Simulation Results}
 
-\subsubsection{Optimise model to derive parameters for maximising profits}
+\paragraph{} As there will be a large volume of data from the simulations with many dimensions, there is a requirement for aggregation and visualization in order to effectively analyse the data.
+
+\subsubsection{Optimise Model Parameters}
 
 \begin{itemize}
   \item Calculus???
 \end{itemize}
 
-\subsubsection{Derive the nash equilibrium}
+\subsubsection{Derive Nash Equilibrium}
 
 \begin{itemize}
   \item ...
