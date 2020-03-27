@@ -16,7 +16,7 @@
 
 \paragraph{Implement Model Logic}
 
-\paragraph{} The mathematical model must be implemented with special considerations to the probabilistic properties of the auction. \comment{not sure about this} JavaScript was the chosen language to implement due to its event driven concurrency model. This milestone includes the implementation of the individual entities, interactions based on the mathematical model, and the event driven auction system. Factors to model include:
+\paragraph{} The mathematical model must be implemented with special considerations to the probabilistic properties of the auction. \ignore{not sure about this} JavaScript was the chosen language to implement due to its event driven concurrency model. This milestone includes the implementation of the individual entities, interactions based on the mathematical model, and the event driven auction system. Factors to model include:
 
 \begin{itemize}
   \item Participants
@@ -75,30 +75,36 @@
 
 \subsection{Evaluation}
 
-\begin{itemize}
-  \item resultant economy - profits for pool, profits for participants
-    \begin{itemize}
-      \item profitable - nice (quantitative results)
-      \item not as profitable - measure increased security vs loss of profit (need some qualitative work too)
-    \end{itemize}
-\end{itemize}
+\paragraph{} The evaluation will be dependent on the outcome of the simulations with the most optimal parameters derived. The assessment will be based on several quantitative metrics around the performance of the participants and the mining pool in the game as opposed to their potential profit without participating. In addition, the case in which external mining pools buy into the game must also be considered. The predicted potential outcomes are:
+
+\renewcommand{\labelenumi}{(\alph{enumi})}
+\begin{enumerate}
+  \item An economy more profitable than the existing strategy. \ignore{impossible in a zero sum game}
+  \item An economy that is still profitable but not as profitable as the existing strategy.
+  \item An economy that is not profitable or sustainable. % what to do?
+\end{enumerate}
+
+\paragraph{} Given case (a), it can be assumed that not only does the model provide a potential avenue for the dissociation of mining and the mining rewards. Case (b) will require further qualitative justification in regards to the potential gains in security over the current strategies. Finally, case (c) indicated there is no financial incentive to utilize the game, but the gains in security may still be valid.
 
 \subsection{Limitations}
 
 \paragraph{} From the methodology defined above, there are several limitations that potentially affect the accuracy of the project:
 
-\subsubsection{The Simulation}
+\paragraph{The Formal Model}
 
-\paragraph{} By nature, simulations are not precise, this will be exacerbated by any imprecision in modelling
+\paragraph{} As humans governed by a large number of factors such as prior knowledge, abilities, and emotion, the decision making process is invariably complicated, often based on analysis of observations and predictions based on patterns. Such decision-making can only modelled through generalization with assumptions and probabilistic functions. While human behavior cannot be completely simulated, they can be modelled based on specific presumptions based on motives (turning a profit, disruption). These presumptions allow narrowing the scope of factors that are considered when making a decision.
 
-\begin{itemize}
-  \item simulation
-    \begin{itemize}
-      \item modeling can only rely on randomization (although could fit to something like gaussian)
-      \item
-    \end{itemize}
-  \item what if other pools buy chunks in this network? prove this is more profitable or that more people are willing to join this network instead of contributing to other pool
-  \item how to get pools to opt into this over doing a 51\% attack? how to get individuals to opt in?
-\end{itemize}
+\paragraph{The Simulation}
+
+\paragraph{} By nature, simulations are not precise, this will be exacerbated by any imprecision or missed factors in the model used as the base of the simulation. While there is no direct method to counteract this limitation, the programmatic nature of the simulation allows for tweaking of the model as new factors are considered. Hence, the simulation may eventually approach a sufficient similarity with enough tweaking.
+
+\paragraph{Variability of The Universe} % better wording?
+
+\paragraph{} There are many factors that affect the economic stability of crypto-currency that are deemed out of scope (such as the recent \ignore{ongoing?} COVID-19 outbreak that resulted in the reduction of Bitcoin prices). Although some consideration may be given in regards to how resistant the model is to such changes.
 
 \subsection{Contributions}
+
+\begin{itemize}
+  \item A new economic model?
+  \item A solution to the centralization of computation
+\end{itemize}
