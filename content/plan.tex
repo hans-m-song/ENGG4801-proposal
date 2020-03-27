@@ -4,47 +4,74 @@
 
 \subsubsection{Formal Modelling}
 
-\paragraph{} Firstly, the game must be deconstructed into components and their relationships. This is required to not only define the general scope of simulatable interactions, but also to provide a foundation on which to abstract behaviours that may be difficult to model deterministically.
+\paragraph{} Firstly, the game must be deconstructed into components and their relationships. This is required to not only define the general scope of simulatable interactions, but also to provide a foundation on which to abstract behaviors that may be difficult to model deterministically.
+
+\paragraph{} This milestone is expected to require approximately one month to complete to reach an implementable state. The model is expected to be tweaked as new factors are considered during implementation.
 
 \subsubsection{Implement Model Simulation}
 
-\paragraph{} As there are many adjustable parameters that may have a large impact on the balance and potentially several probabilistic factors, a simulation provides an avenue of automated experiementation to explore and evaluate the model.
+\paragraph{} As there are many adjustable parameters that may have a large impact on the balance and potentially several probabilistic factors used to make up for human decisions, a simulation provides an avenue of automated experimentation to explore and evaluate the model. 
+
+\paragraph{} This milestone is considered the main goal and is expected to take anywhere between two to four months. Primary resources primarily consists of online documentation on the implementation language and statistical modelling.
 
 \paragraph{Implement Model Logic}
 
-\paragraph{} The mathematical model must be implemented with special considerations to the probabilistic properties of the auction. \comment{not sure about this} JavaScript was the chosen language to implement due to its event driven concurrency model. This milestone includes the implementation of the individual entities, interactions based on the mathematical model, and the event driven auction system.
+\paragraph{} The mathematical model must be implemented with special considerations to the probabilistic properties of the auction. \comment{not sure about this} JavaScript was the chosen language to implement due to its event driven concurrency model. This milestone includes the implementation of the individual entities, interactions based on the mathematical model, and the event driven auction system. Factors to model include:
+
+\begin{itemize}
+  \item Participants
+    \begin{itemize}
+      \item Variability in funds and wanted chunks
+      \item Number of participants (participants leaving and joining)
+      \item Honest participant strategies
+      \item Malicious participant strategies (obstructing game, exploiting mechanics)
+    \end{itemize}
+  \item Honest and malicious mining pool supervisors
+  \item Variability in block time and block reward
+  \item Economic variability (fluctuations in market cap and inflation)
+  \item Variability in the hash rate of the mining pool (as other mining pools compete)
+\end{itemize}
+
+\paragraph{} This sub-milestone will make the bulk of the implementation stage and may take the full duration of the milestone.
 
 \paragraph{Visualize Simulation Results}
 
-\paragraph{} As there will be a large volume of data from the simulations with many dimensions, there is a requirement for aggregation and visualization in order to effectively analyse the data.
+\paragraph{} As there will be a large volume of data from the simulations with many dimensions, there is a requirement for aggregation and visualization in order to effectively analyse the data. Elements to visualize include:
+
+\begin{itemize}
+  \item Simulated blockchain currency valuation (affected by economic variability)
+  \item Participants transaction history 
+  \item Individual and aggregated changes in participant funds
+  \item Transfers of chunks
+  \item Fluctuations in pricing of chunks (auction bids)
+\end{itemize}
+
+\paragraph{} This sub-milestone will be primarily reacting to the completion of the prior sub-milestone; therefore it will require half a month to one month depending on the progress of the prior sub-milestone.
 
 \subsubsection{Optimise Model Parameters}
 
+\paragraph{} Once the simulation is completed, the optimal parameters to ensure a balanced economy is required to maximize the profits of the mining pool to incentivize adoption. This will be determined from a combination of mathematical derivation and automated experimentation with the simulation. The factors to optimize include: 
+
 \begin{itemize}
-  \item Calculus???
+  \item The ratio of participants to chunks
+  \item The tax rate
+  \item The trade intervals with relation to block time.
 \end{itemize}
+
+\paragraph{} This milestone will likely require one to two months to complete. This time frame is dependent on the computer used to run experiments.
 
 \subsubsection{Derive Nash Equilibrium}
 
-\begin{itemize}
-  \item ...
-\end{itemize}
-
-\subsection{Methodology}
+\paragraph{} Deriving the Nash Equilibrium is essential to proving the model will result in a balanced economy to incentivize participation. The following steps are required to derive the Nash Equilibrium:
 
 \begin{itemize}
-  \item formal proofs
-  \item simulations
-    \begin{itemize}
-      \item async?
-      \item how probabilistic?
-      \item static intervals?
-    \end{itemize}
-  \item variability - whether or not to participate, amount to bid, changes in pools computational share, nodes having different compute power
-  \item people withdrawing/depositing?, people joining/leaving?
-  \item auction for each chunk owned or single chunk per round?
-  \item achieving nash equilibrium
+  \item Define the strategies of each entity
+  \item Define all potential states of the game
+  \item Adapt the mathematically modelled relationships into equations based on probabilistic factors
+  \item Apply equations to each potential scenario
 \end{itemize}
+
+\paragraph{} This milestone is expected to require approximately one month to complete
 
 \subsection{Evaluation}
 
@@ -58,6 +85,12 @@
 
 \subsection{Limitations}
 
+\paragraph{} From the methodology defined above, there are several limitations that potentially affect the accuracy of the project:
+
+\subsubsection{The Simulation}
+
+\paragraph{} By nature, simulations are not precise, this will be exacerbated by any imprecision in modelling
+
 \begin{itemize}
   \item simulation
     \begin{itemize}
@@ -65,7 +98,7 @@
       \item
     \end{itemize}
   \item what if other pools buy chunks in this network? prove this is more profitable or that more people are willing to join this network instead of contributing to other pool
-  \item how to get pools to opt into this over doing a 51% attack? how to get individuals to opt in?
+  \item how to get pools to opt into this over doing a 51\% attack? how to get individuals to opt in?
 \end{itemize}
 
 \subsection{Contributions}
