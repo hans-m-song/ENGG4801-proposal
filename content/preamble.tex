@@ -10,6 +10,8 @@
 
 \usepackage{ragged2e}
 
+\usepackage[draft]{todonotes}
+
 \usepackage{hyperref}
 
 \usepackage[noend]{algpseudocode}
@@ -20,18 +22,16 @@
 
 \usepackage[
     a4paper, 
-    margin=45pt,
-    headheight=14pt,
-    footskip=14pt, 
-    paperwidth=587pt,
+    margin=65pt,
+    headheight=20pt,
+    footskip=20pt, 
+    % paperwidth=587pt,
 ]{geometry}
 
 \usepackage[
     backend=biber,
-    sorting=ynt,
+    sorting=none,
 ]{biblatex}
-
-\newcommand{\ignore}[2]{\hspace{0in}#2}
 
 \addbibresource{content/sources.bib}
 

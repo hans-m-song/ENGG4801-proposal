@@ -1,18 +1,36 @@
-bitcoin \cite{nakamoto2009}
+\paragraph{} At it's core, blockchain is about creating a public ledger that ensures immutability through decentralization. While there have been many implementations, all platforms require overcoming the issue of reaching consensus in a distributed trustless environment. Bitcoin \cite{nakamoto2009} is the platform which spurred the demand for innovation in blockchains with Satoshi Nakamoto's innovative Proof of Work (PoW) consensus algorithm. Bitcoin stands at the forefront of crytocurrency with market capitalization fluctuating around 100 billion USD \cite{bitcoinmarketcap2020}, utilizing an estimated 53TWh annually \cite{cambridge2020} as of March 2020.
+
+\paragraph{} The security of the PoW consensus algorithm is established through cryptographic puzzles which are associated with each block. These are solved by \textit{miners}, people or companies that dedicate computational power to guess the solution for a reward. Dedicating more resources gives miners a higher probability of guessing the solution. Hence, attempting to rewrite history or faking blocks requires having enough computational power to solve the puzzles of each related block and overtake the creation of the next block, creating a \textit{hard fork}. However, there is no punishment for collusion, nor is behaving honestly always the most profitable method of participation. 
+
+\paragraph{} As blockchains rise in popularity, the number of competing miners seeking to profit from the rewards rise alongside. While there are still individual miners, the bulk of computation stems from miners that have contributed their computational power to a \textit{pool}, a congregation of miners lead by a pool supervisor who coordinates work and distributes rewards. This results in similar payouts to individual miners but with reduced variance. This leads to large portions of computational power aggregated under the authority of singular entities, effectively centralizing computation.
+
+\paragraph{} With four pools contributing almost 60\% of the total hash-rate for Bitcoin \cite{bitcoinpools2020} and a real possibility for pools to exceeded 50\% (such as GHash in 2014\todo{how do i cite this?}). The only limiting factor is public backlash and a shared incentive to maintain the high valuation of the currency. Additionally, as each pool is controlled by a single authority each, the scenario in which they collude to execute a 51\% attack will be more difficult to predict and identify.
+
+\paragraph{} There has been several proposed solutions to resolve this vulnerability. The two phase PoW \cite{bastiaan2015} introduces an additional puzzle that requires the use of a private key to sign the work done. While this method would discourage outsourcing, it essentially negates any possibility of public pools that miners rely on for reduced variance. The P2Pool is an attempt at creating a completely decentralized mining pool (i.e. without a supervisor) 
+
+\paragraph{} The purpose of this project is to model and verify a system inspired by Harberger's Tax, \todo{cite?} an economic policy that aims to prevent unequal distribution of ownership through two rules:
 
 \begin{itemize}
-  \item proof of work blockchains take a lot of power \ignore{cite}
-  \item miners band together into pools to increase chance of earning \textit{some} of the reward
-  \item 4 or so pools make up over 50\% of mining power \ignore{cite}
-  \item dependent on pool supervisor
-  \item pool supervisor could attempt an attack / selfish mining
-  \item payout is dependent on pool policy
+  \item Owners assign a self-assessed value to their property and pay a proportional tax.
+  \item The owner is unable to prevent anybody from purchasing property at their previously set price.
 \end{itemize}
 
+that has a focus on negating the vulnerability introduced by the centralization of computation through a self-assessed valuation \todo{need a better phrase for this}
+
+\paragraph{} proposed solution
+
 \begin{itemize}
-  \item decentralization of computation - may be less profitable but more secure
+  \item decentralization of authority
   \item separate miners from block reward / an alternative to corporations (Antpool) - mining empty blocks / selfish mining
-  \item pool manager can focus on efficiency / deduping calculations as they are incentivized to attract more participants
+  \item pool manager can focus on efficiency / deduping as they are incentivized to attract more participants
 \end{itemize}
 
-%\paragraph{} % Problem Definition, basic overview of project
+\paragraph{} methodology
+
+\begin{itemize}
+  \item problem: centralization of computation (or authority)
+  \item proposed solution: separate computation from authority
+  \item incentive: new economy is more profitable/attractive to participate in
+  \item method 1: computation all owned by single entity - sell computation, tax transactions
+  \item method 2: computation is pooled by many - less rewards for more computation owned
+\end{itemize}
