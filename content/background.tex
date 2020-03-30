@@ -1,34 +1,57 @@
-\subsection{Blockchains}
+\subsection{Consensus Algorithms}
+
+% \begin{itemize}
+%   \item blocks, achieving consensus - hashes, byzantine fault tolerance
+%   \item scoping to pow or broader?
+%   \item centralization of computation - 51\% attack
+%   \item incentives to mine - block reward - (hardware cost + power cost)
+%   \item solo vs pooled mining
+% \end{itemize}  
+
+\paragraph{} Consensus algorithms are at the core of any blockchain and are an attempt at overcoming the issue of overall system consistency of the blockchain despite faulty or malicious participants in a distributed, trustless environment. The primary obstacle of blockchains that consensus algorithms are designed to solve is the Byzantine Generals Problem: a scenario in which allied generals geographically separated by the enemy are attempting to communicate without the message being caught and tampered with. 
+
+\paragraph{} Proof of Work (PoW) overcomes this issue using a variation of HashCash \cite{back2002} by creating a cryptographic puzzle with Merkle trees \todo{should i go into detail about how this works?} that is computationally expensive with the solution used as verification for the next block. Attempting to rewrite history or faking blocks requires having enough computational power to solve the puzzles of each related block and overtake the creation of the next block, creating a \textit{hard fork}.
+
+% PoW relies on a non-trivial amount of adequately distributed computational power to ensure the immutability of it's public ledger. While this 
+% payout is dependent on pool policy
+
+\subsection{Mining Pools}
+
+\paragraph{} While the intention of PoW is for each participant mine individually for a truly decentralized implementation, there is no punishment for collusion, nor is behaving honestly always the most profitable method of participation. Given the following parameters:
 
 \begin{itemize}
-  \item blocks, achieving consensus - hashes, byzantine fault tolerance
-  \item scoping to pow or broader?
-  \item centralization of computation - 51\% attack
-  \item incentives to mine - block reward - (hardware cost + power cost)
-  \item solo vs pooled mining
-\end{itemize}  
-
-\paragraph{} A Blockchain is an append-only set of records that are linked cryptographically to 
-
-\paragraph{} Consensus Algorithms are at the core of any blockchain and are an attempt at overcoming the issue of overall system consistency of the blockchain despite faulty or malicious participants in a distributed, trustless environment. The primary obstacle of consensus algorithms is the Byzantine Generals Problem: a scenario in which allied generals geographically separated by the enemy are attempting to communicate without the message being caught and tampered with. PoW overcomes this issue by creating a cryptographic puzzle that depends on the previous block in the chain and the new transactions that are to be in the next block.
-
-\paragraph{} Attempting to rewrite history or faking blocks requires having enough computational power to solve the puzzles of each related block and overtake the creation of the next block, creating a \textit{hard fork}. However, there is no punishment for collusion, nor is behaving honestly always the most profitable method of participation. 
-
-\subsection{Harbergers Tax} \label{section:harbergerstax}
-
-\begin{itemize}
-  \item incentivization of proper distribution
-  \item tax on transaction instead of interval?
+  \item $R$ - reward for successfully solving the puzzle.
+  \item $h$ - the hash-rate of the miner.
+  \item $H$ - global total hash-rate.
+  \item $\lambda$ - difficulty of the puzzle, changing every 2016 blocks.
 \end{itemize}
 
-\paragraph{} Harberger's Tax is an economic policy that aims to prevent unequal distribution of property through two rules:
+\noindent A miner would expect to generate a valid solution in $t = \frac{\lambda \times 2^{32}}{h}$ \cite{difficulty2019} seconds or an amortized profit of $p = \frac{h}{H} \times \frac{R}{t}$ per block.
+
+\paragraph{} Miners are incentivized by the profit rather than maintaining the integrity of the blockchain. Hence, as  more computational power is dedicated to mining, the difficulty increases proportionally in order to control block creation speed. In order to make up for the increased difficulty, miners can pool their resources so if any member is able to create a valid solution, every contributing member receives a portion of the reward. While the amount would be very similar to mining individually, the variance of payout is reduced.
+
+\subsection{Harberger Tax} \label{section:harbergerstax}
+
+% \begin{itemize}
+%   \item incentivization of proper distribution
+%   \item tax on transaction instead of interval?
+% \end{itemize}
+
+\paragraph{} The Harberger Tax is an economic policy that aims to prevent unequal distribution of property through two rules:
 
 \begin{itemize}
-  \item Owners assign a self-assessed value to their property and pay a proportional tax.
+  \item Owners assign a self-assessed value to their property and pay a proportional tax \todo{tax on an interval or from transactions}.
   \item The owner is unable to prevent anybody from purchasing their property at their previously set price.
 \end{itemize}
 
-\paragraph{} When the policy is enacted, participants are able to set a price on their property through self-assessed valuation
+\paragraph{} When the policy is enacted, participants are able to set a price on their property through self-assessed valuation. As participants are unable to prevent the sale of their items, nor are they able to set the price prohibitively expensive
+
+\paragraph{} In the context of this project, some modifications and additional rules are required:
+
+\begin{itemize}
+  \item Participants attempting to purchase will instead initiate an auction instead of a direct sale.
+  \item In the situation an owner is unable to afford the tax, they relinquish ownership of their property. The property is returned to a global pool of unowned property that participants may attempt to purchase through auction.
+\end{itemize}
 
 \subsection{Nash Equilibrium}
 
@@ -36,27 +59,4 @@
   \item defining parameters
   \item defining strategies
   \item deriving the equilibria
-\end{itemize}
-
-\subsection{Formal Definitions}
-
-\paragraph{Blockchain}
-
-\begin{itemize}
-  \item block reward, block time, market cap
-\end{itemize}
-
-% PoW relies on a non-trivial amount of adequately distributed computational power to ensure the immutability of it's public ledger. While this 
-% payout is dependent on pool policy
-
-\paragraph{Pool}
-
-\begin{itemize}
-  \item available chunks, compute power vs world, trade intervals, tax
-\end{itemize}
-
-\paragraph{Participant}
-
-\begin{itemize}
-  \item funds, owned chunks, price
 \end{itemize}

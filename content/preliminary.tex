@@ -1,6 +1,70 @@
 \subsection{System design} % or Proposed Solution?
 
-% describe project in more detail, formally define?
+\paragraph{Global} 
+
+\begin{itemize}
+  \item $\mathbb{H}$ - Global hash rate
+  \item $P$ - Set of pools
+\end{itemize}
+
+\paragraph{Blockchain}
+
+\begin{itemize}
+  \item $\mathbb{R}$ - Block reward
+  \item $\mathbb{T}$ - Block time
+  \item $\mathbb{C}$ - Market cap
+\end{itemize}
+
+\paragraph{Pool}
+
+\begin{itemize}
+  \item $C$ - total chunks
+  \item $c$ - Available chunks
+  \item $H$ - Hash rate
+  \item $i$ - Trade intervals 
+  \item $t$ - Tax
+  \item $P$ - Chunk sell price
+  \item $R$ - Reward per chunk
+\end{itemize}
+
+\begin{equation}
+  R = \frac{\mathbb{B}}{c} \times \frac{H}{\mathbb{H}}
+\end{equation}
+
+\paragraph{Seller}
+
+\begin{itemize}
+  \item $x$ - Owned chunks
+  \item $p_s$ - Sell price
+\end{itemize}
+
+\todo[inline]{chunk computational power is varied}
+
+\begin{align}
+  \begin{split}
+    profit_{held} = &\; x \times R \\
+    &\; - x \times p_s \times t
+  \end{split}
+\end{align}
+
+\begin{equation}
+  profit_{sale} = (y \times p_s)
+\end{equation}
+
+\paragraph{Buyer}
+
+\begin{itemize}
+  \item $y$ - Wanted chunks
+  \item $p_b$ - Sell price
+\end{itemize}
+
+\begin{align}
+  \begin{split}
+    profit_{purchase} = &\; (x + y) \times R \\
+    &\; - (x + y) \times p_b \times t \\
+    &\; - y \times p_s
+  \end{split}
+\end{align}
 
 \subsection{Simulation}
 
