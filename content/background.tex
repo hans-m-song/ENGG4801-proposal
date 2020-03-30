@@ -1,17 +1,20 @@
-\subsection{Coverage}
+\subsection{Blockchains}
 
-\subsubsection{Blockchains}
-
-% general background of what blockchains are
 \begin{itemize}
   \item blocks, achieving consensus - hashes, byzantine fault tolerance
   \item scoping to pow or broader?
   \item centralization of computation - 51\% attack
   \item incentives to mine - block reward - (hardware cost + power cost)
   \item solo vs pooled mining
-\end{itemize}
+\end{itemize}  
 
-\subsubsection{Harbergers Tax} \label{section:harbergerstax}
+\paragraph{} A Blockchain is an append-only set of records that are linked cryptographically to 
+
+\paragraph{} Consensus Algorithms are at the core of any blockchain and are an attempt at overcoming the issue of overall system consistency of the blockchain despite faulty or malicious participants in a distributed, trustless environment. The primary obstacle of consensus algorithms is the Byzantine Generals Problem: a scenario in which allied generals geographically separated by the enemy are attempting to communicate without the message being caught and tampered with. PoW overcomes this issue by creating a cryptographic puzzle that depends on the previous block in the chain and the new transactions that are to be in the next block.
+
+\paragraph{} Attempting to rewrite history or faking blocks requires having enough computational power to solve the puzzles of each related block and overtake the creation of the next block, creating a \textit{hard fork}. However, there is no punishment for collusion, nor is behaving honestly always the most profitable method of participation. 
+
+\subsection{Harbergers Tax} \label{section:harbergerstax}
 
 \begin{itemize}
   \item incentivization of proper distribution
@@ -25,7 +28,9 @@
   \item The owner is unable to prevent anybody from purchasing their property at their previously set price.
 \end{itemize}
 
-\subsubsection{Nash Equilibrium}
+\paragraph{} When the policy is enacted, participants are able to set a price on their property through self-assessed valuation
+
+\subsection{Nash Equilibrium}
 
 \begin{itemize}
   \item defining parameters
@@ -33,7 +38,7 @@
   \item deriving the equilibria
 \end{itemize}
 
-\subsubsection{Definitions}
+\subsection{Formal Definitions}
 
 \paragraph{Blockchain}
 
@@ -54,11 +59,4 @@
 
 \begin{itemize}
   \item funds, owned chunks, price
-\end{itemize}
-
-\subsection{Literature Review} % prior work, what they've achieved, what their limitations are
-
-\begin{itemize}
-  \item smartpool (only on ethereum relying on smart contracts - cant be used for bitcoin)
-  \item p2pool (seems dead?)
 \end{itemize}
