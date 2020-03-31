@@ -28,7 +28,7 @@
 
 \noindent A miner would expect to generate a valid solution in $t = \frac{\lambda \times 2^{32}}{h}$ \cite{difficulty2019} seconds or an amortized profit of $p = \frac{h}{H} \times \frac{R}{t}$ per block.
 
-\paragraph{} Miners are incentivized by the profit rather than maintaining the integrity of the blockchain. Hence, as  more computational power is dedicated to mining, the difficulty increases proportionally in order to control block creation speed. In order to make up for the increased difficulty, miners can pool their resources so if any member is able to create a valid solution, every contributing member receives a portion of the reward. While the amount would be very similar to mining individually, the variance of payout is reduced.
+\paragraph{} Miners are incentivized by the profit rather than maintaining the integrity of the blockchain. Hence, as  more computational power is dedicated to mining, the difficulty increases proportionally in order to control block creation speed. In order to make up for the increased difficulty, miners can pool their resources so if any member is able to create a valid solution, every contributing member receives a portion of the reward. While the amount would be very similar to mining individually, the variance of payout is reduced, essentially increasing $h$ to the sum of the pool's hash-rate and decreasing $R$ to the work contributed relative to the pool.
 
 \subsection{Harberger Tax} \label{section:harbergerstax}
 

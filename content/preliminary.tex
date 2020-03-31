@@ -1,18 +1,19 @@
 \subsection{System design} % or Proposed Solution?
 
+\paragraph{} The system is broken up into several components of increasing specificity (i.e. Buyer $|$ Seller $\in$ Pool $\in$ Blockchain $\in$ Global). Each component exists in a set under it's parent
+
 \paragraph{Global} 
 
 \begin{itemize}
   \item $\mathbb{H}$ - Global hash rate
-  \item $P$ - Set of pools
+  \item $\mathbb{B}$ - Set of blockchains
 \end{itemize}
 
 \paragraph{Blockchain}
 
 \begin{itemize}
-  \item $\mathbb{R}$ - Block reward
-  \item $\mathbb{T}$ - Block time
-  \item $\mathbb{C}$ - Market cap
+  \item $R$ - Block reward
+  \item $T$ - Block time
 \end{itemize}
 
 \paragraph{Pool}
@@ -31,14 +32,14 @@
   R = \frac{\mathbb{B}}{c} \times \frac{H}{\mathbb{H}}
 \end{equation}
 
+\todo[inline]{what if chunk computational power is varied}
+
 \paragraph{Seller}
 
 \begin{itemize}
   \item $x$ - Owned chunks
   \item $p_s$ - Sell price
 \end{itemize}
-
-\todo[inline]{chunk computational power is varied}
 
 \begin{align}
   \begin{split}
@@ -72,13 +73,22 @@
 
 \begin{algorithm}
   \begin{algorithmic}[1]
-    \Procedure{auction}{P} \Comment{$ P \gets $ set of participants}
-      \For{$seller \in P$}
-        \For{$bidder \in P$}
-          \If{$bidder.$\textsc{canParticipate}}
-            \State{$bidder.$\textsc{bid}}
-          \EndIf
-        \EndFor
+    \Procedure{auction}{$s$, $p$, $P$, $b$} \Comment{$s \gets$ seller, $p \gets$ current price, $P \gets$ bidders, $b \gets$ last bidder}
+      \For{$bidder \in P$}
+        \If{$bidder.$\textsc{canParticipate}$(seller.price)$}
+          \State{$B \gets B \cup bidder$}
+        \EndIf
+      \EndFor
+    \EndProcedure
+    \Procedure{trade}{$P, t$} \Comment{$P \gets$ set of participants, $t \gets$ tax rate}
+      \For{$seller \in P$} \Comment{Bidding}
+        \State{$\textsc{auction}(seller, )$}
+      \EndFor
+      \For{$taxee \in P$} \Comment{Taxation}
+        \While{$taxee.funds < (taxee.ownedChunks \times taxee.price \times t)$}
+          \State{$taxee.ownedChunks \gets taxee.ownedChunks - 1$}
+        \EndWhile
+        \State{$taxee.funds \gets taxee.funds - (taxee.ownedChunks \times taxee.price \times t)$}
       \EndFor
     \EndProcedure
   \end{algorithmic}
