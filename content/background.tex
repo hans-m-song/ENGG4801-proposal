@@ -1,3 +1,5 @@
+\todo[inline]{talk about blockchains?}
+
 \subsection{Consensus Algorithms}
 
 % \begin{itemize}
@@ -8,12 +10,14 @@
 %   \item solo vs pooled mining
 % \end{itemize}  
 
-\paragraph{} Consensus algorithms are at the core of any blockchain and are an attempt at overcoming the issue of overall system consistency of the blockchain despite faulty or malicious participants in a distributed, trustless environment. The primary obstacle of blockchains that consensus algorithms are designed to solve is the Byzantine Generals Problem: a scenario in which allied generals geographically separated by the enemy are attempting to communicate without the message being caught and tampered with. 
+\paragraph{} Consensus algorithms are at the core of any blockchain and are an attempt at overcoming the issue of overall system consistency of the blockchain despite faulty or malicious participants in a distributed, trustless environment. The primary obstacle of blockchains that consensus algorithms are designed to solve is the Byzantine Generals Problem: \todo{cite?} a scenario in which allied generals geographically separated by the enemy are attempting to communicate without the message being caught and tampered with. 
 
 \paragraph{} Proof of Work (PoW) overcomes this issue using a variation of HashCash \cite{back2002} by creating a cryptographic puzzle with Merkle trees \todo{should i go into detail about how this works?} that is computationally expensive with the solution used as verification for the next block. Attempting to rewrite history or faking blocks requires having enough computational power to solve the puzzles of each related block and overtake the creation of the next block, creating a \textit{hard fork}.
 
 % PoW relies on a non-trivial amount of adequately distributed computational power to ensure the immutability of it's public ledger. While this 
 % payout is dependent on pool policy
+
+\todo[inline]{talk about how mining works as a seperate section?}
 
 \subsection{Mining Pools}
 
@@ -26,7 +30,7 @@
   \item $\lambda$ - difficulty of the puzzle, changing every 2016 blocks.
 \end{itemize}
 
-\noindent A miner would expect to generate a valid solution in $t = \frac{\lambda \times 2^{32}}{h}$ \cite{difficulty2019} seconds or an amortized profit of $p = \frac{h}{H} \times \frac{R}{t}$ per block.
+\noindent A miner would expect to generate a valid solution in $t = \frac{\lambda \times 2^{32}}{h}$ \cite{difficulty2019} seconds or an amortized profit of $p = \frac{h}{H} \times \frac{R}{t \times 600}$ per block.
 
 \paragraph{} Miners are incentivized by the profit rather than maintaining the integrity of the blockchain. Hence, as  more computational power is dedicated to mining, the difficulty increases proportionally in order to control block creation speed. In order to make up for the increased difficulty, miners can pool their resources so if any member is able to create a valid solution, every contributing member receives a portion of the reward. While the amount would be very similar to mining individually, the variance of payout is reduced, essentially increasing $h$ to the sum of the pool's hash-rate and decreasing $R$ to the work contributed relative to the pool.
 
@@ -40,9 +44,11 @@
 \paragraph{} The Harberger Tax is an economic policy that aims to prevent unequal distribution of property through two rules:
 
 \begin{itemize}
-  \item Owners assign a self-assessed value to their property and pay a proportional tax \todo{tax on an interval or from transactions}.
+  \item Owners assign a self-assessed value to their property and pay a proportional tax. \todo{tax on an interval or per transactions}
   \item The owner is unable to prevent anybody from purchasing their property at their previously set price.
 \end{itemize}
+
+\todo[inline]{talk about pros, cons, trends towards a stable price}
 
 \paragraph{} When the policy is enacted, participants are able to set a price on their property through self-assessed valuation. As participants are unable to prevent the sale of their items, nor are they able to set the price prohibitively expensive
 
@@ -54,6 +60,8 @@
 \end{itemize}
 
 \subsection{Nash Equilibrium}
+
+\paragraph{} Given a non-cooperative game in which each players strategy is known by their opponent(s), the Nash equilibrium is the proposed \textit{best solution} in which all players are acting based on \textit{best decision} they can while aware of the decisions their opponent(s) will make.
 
 \begin{itemize}
   \item defining parameters

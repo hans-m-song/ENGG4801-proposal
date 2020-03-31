@@ -71,18 +71,11 @@
 
 \paragraph{} A basic functional implementation of the simulation has been completed, viewable in Appendix \ref{appendix:code} \todo{is it necessary to put this in the appendix?} or available at \url{https://github.com/hans-m-song/harbergers-tax}. 
 
-\begin{algorithm}
+\begin{algorithm}[H]
   \begin{algorithmic}[1]
-    \Procedure{auction}{$s$, $p$, $P$, $b$} \Comment{$s \gets$ seller, $p \gets$ current price, $P \gets$ bidders, $b \gets$ last bidder}
-      \For{$bidder \in P$}
-        \If{$bidder.$\textsc{canParticipate}$(seller.price)$}
-          \State{$B \gets B \cup bidder$}
-        \EndIf
-      \EndFor
-    \EndProcedure
     \Procedure{trade}{$P, t$} \Comment{$P \gets$ set of participants, $t \gets$ tax rate}
-      \For{$seller \in P$} \Comment{Bidding}
-        \State{$\textsc{auction}(seller, )$}
+      \For{$seller \in P$}
+        \State{$\textsc{auction}(seller, seller.price, P, \textsc{null})$}
       \EndFor
       \For{$taxee \in P$} \Comment{Taxation}
         \While{$taxee.funds < (taxee.ownedChunks \times taxee.price \times t)$}
@@ -91,10 +84,36 @@
         \State{$taxee.funds \gets taxee.funds - (taxee.ownedChunks \times taxee.price \times t)$}
       \EndFor
     \EndProcedure
+    \Procedure{auction}{$P$, $s$, $p$, $b$} \Comment{$P \gets$ bidders, $s \gets$ seller, $p \gets$ current price, $b \gets$ last bidder}
+      \If{$P = \emptyset$}
+        \State{$\textsc{transact}(s, b, p)$}
+        \State{\Return}
+      \EndIf
+      \State{$maxBidder \gets b$}
+      \State{$maxBid \gets p$}
+      \For{$bidder \in P$}
+        \State{$bid \gets bidder.\textsc{bid}(p)$}
+        \If{$bid > maxBid$}
+          \State{$maxBid \gets bid$}
+          \State{$maxBidder \gets bidder$}
+        \EndIf
+      \EndFor
+      \State{$P' \gets \emptyset$}
+      \For{$bidder \in P$}
+        \If{$bidder.$\textsc{canParticipate}$(seller.price)$}
+          \State{$B \gets B \cup bidder$}
+        \EndIf
+      \EndFor
+      \State{\Return $\textsc{auction}(P', s, maxBid, maxBidder)$}
+    \EndProcedure
+    \Procedure{transact}{$b, s, p$} \Comment{$b \gets$ buyer, $s \gets$ seller, $p \gets$ price}
+      \State{$b.funds \gets b.funds - p$}
+      \State{$b.ownedChunks \gets b.ownedChunks + 1$}
+      \State{$s.funds \gets s.funds + p$}
+      \State{$s.ownedChunks \gets s.ownedChunks - 1$}
+    \EndProcedure
   \end{algorithmic}
 \end{algorithm}
-
-\todo{finish this}
 
 \subsection{Results}
 
