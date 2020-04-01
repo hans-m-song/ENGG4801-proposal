@@ -14,9 +14,7 @@
 
 \paragraph{} This milestone is considered the main goal and is expected to take anywhere between two to four months. Primary resources primarily consists of online documentation on the implementation language and statistical modelling.
 
-\paragraph{Implement Model Logic}
-
-\paragraph{} The mathematical model must be implemented with special considerations to the probabilistic properties of the auction. \todo{not sure about this} JavaScript was the chosen language to implement due to its event driven concurrency model. This milestone includes the implementation of the individual entities, interactions based on the mathematical model, and the event driven auction system. Factors to model include:
+\paragraph{Implement Model Logic} The mathematical model must be implemented with special considerations to the probabilistic properties of the auction. JavaScript was the chosen language to implement due to its event driven concurrency model. This milestone includes the implementation of the individual agents, interactions based on the mathematical model, and the event driven auction system. Factors to model include:
 
 \begin{itemize}
   \item Participants
@@ -34,9 +32,7 @@
 
 \paragraph{} This sub-milestone will make the bulk of the implementation stage as is subject to change as parameters are adjusted and may take from two months up to the full duration of the milestone.
 
-\paragraph{Visualize Simulation Results}
-
-\paragraph{} As there will be a large volume of data from the simulations with many dimensions, there is a requirement for aggregation and visualization in order to effectively analyse the data. Elements to visualize include:
+\paragraph{Visualize Simulation Results} As there will be a large volume of data from the simulations with many dimensions, there is a requirement for aggregation and visualization in order to effectively analyse the data. Elements to visualize include:
 
 \begin{itemize}
   \item Simulated blockchain currency valuation (affected by economic variability)
@@ -70,7 +66,7 @@
 \paragraph{} Deriving the Nash equilibrium is essential to proving the model will result in a balanced economy to incentivize participation. The following steps are required to derive the Nash equilibrium:
 
 \begin{itemize}
-  \item Define the strategies of each entity
+  \item Define the strategies of each agent
   \item Define all potential states of the game
   \item Adapt the mathematically modelled relationships into equations based on probabilistic factors
   \item Apply equations to each potential scenario
@@ -98,12 +94,12 @@
 
 \renewcommand{\labelenumi}{(\alph{enumi})}
 \begin{enumerate}
-  \item An economy more profitable than the existing strategy. \todo{impossible in a zero sum game, separate tax from reward?}
-  \item An economy that is still profitable but not as profitable as the existing strategy.
-  \item An economy that is not profitable or sustainable. % what to do?
+  \item An economy more profitable than the current pool strategies.
+  \item An economy that is still profitable but not as profitable as the current pool strategies.
+  \item An economy that is not profitable or sustainable.
 \end{enumerate}
 
-\paragraph{} Given case (a), it can be assumed that not only does the model provide a potential avenue for the dissociation of mining and the mining rewards. Case (b) will require further qualitative justification in regards to the potential gains in security over the current strategies. Finally, case (c) indicated there is no financial incentive to utilize the game, but the gains in security may still be valid.
+\paragraph{} Given case (a), it can be assumed that not only does the model provide a potential avenue for the dissociation of mining and the mining rewards, it would be attractive to pools to implement.However, if the model is discovered to be a zero sum game, case (a) will be impossible. Case (b) will require further qualitative justification in regards to the potential gains in security over the current strategies. Finally, case (c) indicated there is no financial incentive to utilize the game, but the gains in security may still be valid.
 
 \todo[inline]{"An economy more profitable than the existing strategy." If it is not possible, may be discuss the loss, showing that how much everyone can sacrifice to get better decentralization. Maybe try to find an optimal balance (if possible)}
 

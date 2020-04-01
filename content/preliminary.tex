@@ -1,4 +1,4 @@
-\subsection{System design} % or Proposed Solution?
+\subsection{System design}
 
 \paragraph{} The system is broken up into several components of increasing specificity (i.e. Participant $\in$ Pool $\in$ Blockchain $\in$ Global). Each component exists in a set under it's parent. The system can be described in the following terms and relationships:
 
@@ -141,7 +141,28 @@
 
 \subsection{Results}
 
-\paragraph{} some results
+\subsubsection{Data Collection}
+
+\paragraph{Parameters} The following parameters were used to run the simulation for a single pool:
+
+\begin{itemize}
+  \item Block reward $\mathbb{R} = 10$
+  \item Block time $b = 1s$
+  \item Trade interval $t = 0.2s$
+  \item Total chunks $C = 100$
+  \item Tax rate $r = 0.02$
+  \item Pool's share of global hash rate $\frac{H}{\mathbb{H}} = 0.3$
+  \item Number of participants $P_p.length = 100$
+\end{itemize}
+The simulation ran for 100 rounds (i.e. 100 chances for the pool to earn the reward), in which the reward was received 31 times. Each participant started with a random amount of funds and 0 owned chunks while the pool started with all 100.
+
+\paragraph{Collection} Each change to every participants balance was recorded along with timestamp, the number of blocks moved, and a reason. Additionally, general metrics on performance such as time take, number of transactions that occurred were recorded.
+
+\paragraph{Postprocessing} Since all events happen asynchronously, transactions and reward distribution can occur anytime within the trade interval. Hence, the occurrence of block purchases and occurrence of rewards was binned based on trade interval and block interval respectively.
+
+\subsubsection{Analysis}
+
+\paragraph{} It can be seen from Figure \ref{figure:balances} below that the general trend of all participants is positive with significant jumps when a reward is earned. This indicates the tax rate or reward could be adjusted or more time is required to bring the system closer to equilibrium.
 
 \begin{figure}[H]
   \centering
@@ -150,12 +171,16 @@
   \includegraphics[width=\linewidth]{media/fig-balances}
 \end{figure}
 
+\paragraph{} From Figure \ref{figure:balances-pool} It can be seen that the pool's profits greatly outpace the growth of participants. This is primarily due to the pool possessing a large portion of the chunks which indicates the pricing of chunks or the decision making process for participants needs to be adjusted.
+
 \begin{figure}[H]
   \centering
   \caption{Balances of all participants, pool inclusive}
   \label{figure:balances-pool}
   \includegraphics[width=\linewidth]{media/fig-balances-pool}
 \end{figure}
+
+\paragraph{} The occurrence of rewards can be seen in Figure \ref{figure:rewards}. The rewards occur as expected, with 31 rewards from the 100 total chances.
 
 \begin{figure}[H]
   \centering
@@ -164,15 +189,11 @@
   \includegraphics[width=\linewidth]{media/fig-rewards}
 \end{figure}
 
+\paragraph{} The frequency of block purchases per trade interval can be seen in Figure \ref{figure:blocks} with a high of 4 blocks in a single interval. While frequency of purchases slightly increases later on, the low amount of purchases may indicate the pricing needs to be adjusted.
+
 \begin{figure}[H]
   \centering
   \caption{Blocks transferred throughout game}
   \label{figure:blocks}
   \includegraphics[width=\linewidth]{media/fig-blocks}
 \end{figure}
-
-\subsubsection{Data Collection}
-
-\subsubsection{Analysis}
-
-% observations, trends, validation
