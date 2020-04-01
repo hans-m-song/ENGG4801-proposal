@@ -1,87 +1,95 @@
 \subsection{System design} % or Proposed Solution?
 
-\paragraph{} The system is broken up into several components of increasing specificity (i.e. Buyer $|$ Seller $\in$ Pool $\in$ Blockchain $\in$ Global). Each component exists in a set under it's parent
+\paragraph{} The system is broken up into several components of increasing specificity (i.e. Buyer $|$ Seller $\in$ Pool $\in$ Blockchain $\in$ Global). Each component exists in a set under it's parent. The system can be described in the following terms and relationships:
 
 \paragraph{Global} 
 
 \begin{itemize}
-  \item $\mathbb{H}$ - Global hash rate
-  \item $\mathbb{B}$ - Set of blockchains
+  \item $\mathbb{H}$ - Global \textbf{h}ash rate
+  \item $B$ - Set of \textbf{b}lockchains
+  \item $T$ - \textbf{t}ime
 \end{itemize}
 
 \paragraph{Blockchain}
 
 \begin{itemize}
-  \item $R$ - Block reward
-  \item $T$ - Block time
+  \item $\mathbb{R}$ - Block \textbf{r}eward
+  \item $b$ - \textbf{B}lock time
+  \item $P$ - Set of \textbf{p}ools
 \end{itemize}
 
 \paragraph{Pool}
 
 \begin{itemize}
-  \item $C$ - total chunks
-  \item $c$ - Available chunks
-  \item $H$ - Hash rate
-  \item $i$ - Trade intervals 
-  \item $t$ - Tax
-  \item $P$ - Chunk sell price
-  \item $R$ - Reward per chunk
+  \item $C$ - total \textbf{c}hunks
+  \item $c$ - Available \textbf{c}hunks
+  \item $H$ - \textbf{H}ash rate
+  \item $t$ - \textbf{T}rade intervals 
+  \item $r$ - Tax \textbf{r}ate
+  \item $p_{p}$ - \textbf{P}ool sell \textbf{p}rice
+  \item $R$ - \textbf{R}eward per chunk 
+    \begin{equation} \label{equation:chunkreward}
+      R = \frac{\mathbb{R}}{c} \times \frac{H}{\mathbb{H}}
+    \end{equation}
+    \todo[inline]{what if chunk computational power or reward is varied}
+  \item $P$ - Set of \textbf{p}articipants
 \end{itemize}
 
-\begin{equation}
-  R = \frac{\mathbb{B}}{c} \times \frac{H}{\mathbb{H}}
-\end{equation}
-
-\todo[inline]{what if chunk computational power is varied}
-
-\paragraph{Seller}
+\paragraph{Participant}
 
 \begin{itemize}
   \item $x$ - Owned chunks
-  \item $p_s$ - Sell price
+  \item $p_s$ - \textbf{S}ale \textbf{p}rice
+  \item $y$ - Wanted chunks
+  \item $p_p$ - \textbf{B}uying \textbf{p}rice
 \end{itemize}
 
-\begin{align}
+\begin{equation} \label{equation:tax}
+  amountTaxable(x) = x \times p_s \times r
+\end{equation}
+
+\begin{align} \label{equation:profitpurchase}
   \begin{split}
-    profit_{held} = &\; x \times R \\
-    &\; - x \times p_s \times t
+    profit_{purchase} = &\; (x + y) \times R \\
+    &\; - amountTaxable(x) \\
+    &\; - amountTaxable(y) \\
+    &\; - y \times p_b
   \end{split}
 \end{align}
 
-\begin{equation}
+\begin{align} \label{equation:profitheld}
+  \begin{split}
+    profit_{held} = &\; x \times R \\
+    &\; - amountTaxable(x)
+  \end{split}
+\end{align}
+
+\begin{equation} \label{equation:profitsale}
   profit_{sale} = (y \times p_s)
 \end{equation}
 
-\paragraph{Buyer}
-
-\begin{itemize}
-  \item $y$ - Wanted chunks
-  \item $p_b$ - Sell price
-\end{itemize}
-
-\begin{align}
-  \begin{split}
-    profit_{purchase} = &\; (x + y) \times R \\
-    &\; - (x + y) \times p_b \times t \\
-    &\; - y \times p_s
-  \end{split}
-\end{align}
+\paragraph{} At time $I_0$, all participants begin with $x = 0$ and a randomized amount of funds and the pool begins will $c = C$. Between each interval $I_i$ to $I_{i + t}$, participants will have an opportunity to initiate an auction for any of the available chunks $c$ from the pool at a starting rate of $p_p$ or from any of the other participants at their set price $p_s$ while keeping in mind their potential profit from Equations \ref{equation:profitpurchase} and \ref{equation:profitheld}. Finally, a tax is deducted from each participant according to Equation \ref{equation:tax} where $x = participant.x$ at $I_{i + t}$
 
 \subsection{Simulation}
 
-\paragraph{} A basic functional implementation of the simulation has been completed, viewable in Appendix \ref{appendix:code} \todo{is it necessary to put this in the appendix?} or available at \url{https://github.com/hans-m-song/harbergers-tax}. 
+\paragraph{} A basic functional implementation of the simulation has been completed, viewable in Appendix \ref{appendix:code} \todo{is it necessary to put this in the appendix?} or available at \url{https://github.com/hans-m-song/harbergers-tax}. The simulation is an implementation of the pseudocode below, with Algorithm \ref{algorithm:trade} being called at intervals based on the pool parameters and Algorithm \ref{algorithm:reward} being called at intervals based on the blockchain parameters. An alternate reward system will also be simulated in which Algorithm \ref{algorithm:reward} will reward the pool directly and Algorithm \ref{algorithm:chunkreward} will be executed, distributing the reward to the players
 
 \begin{algorithm}[H]
+  \caption{Executed at pool defined intervals}
+  \label{algorithm:trade}
   \begin{algorithmic}[1]
-    \Procedure{trade}{$P, t$} \Comment{$P \gets$ set of participants, $t \gets$ tax rate}
+    \Procedure{trade}{$P, p$}  \Comment{$P \gets$ participants, $p \gets$ pool}
       \For{$seller \in P$}
         \State{$\textsc{auction}(seller, seller.price, P, \textsc{null})$}
       \EndFor
       \For{$taxee \in P$} \Comment{Taxation}
-        \While{$taxee.funds < (taxee.ownedChunks \times taxee.price \times t)$}
+        \While{$taxee.funds < (taxee.ownedChunks \times taxee.price \times p.taxRate)$}
           \State{$taxee.ownedChunks \gets taxee.ownedChunks - 1$}
+          \State{$p.availableChunks \gets p.availableChunks + 1$}
         \EndWhile
-        \State{$taxee.funds \gets taxee.funds - (taxee.ownedChunks \times taxee.price \times t)$}
+        \State{$amount \gets taxee.ownedChunks \times taxee.price \times p.taxRate$}
+        \State{$taxee.funds \gets taxee.funds - amount$}
+        \State{$p.funds \gets p.funds + amount$}
       \EndFor
     \EndProcedure
     \Procedure{auction}{$P$, $s$, $p$, $b$} \Comment{$P \gets$ bidders, $s \gets$ seller, $p \gets$ current price, $b \gets$ last bidder}
@@ -111,6 +119,39 @@
       \State{$b.ownedChunks \gets b.ownedChunks + 1$}
       \State{$s.funds \gets s.funds + p$}
       \State{$s.ownedChunks \gets s.ownedChunks - 1$}
+    \EndProcedure
+  \end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}[H]
+  \caption{Reward system that only rewards singular miner, executed at blockchain defined intervals}
+  \label{algorithm:reward}
+  \begin{algorithmic}[1]
+    \Procedure{reward}{$P, p, r$} \Comment{$P \gets$ participants, $p \gets$ pool parameters, $r \gets$ reward}
+      \If{$p.computeShare > \textsc{randomFloat}(0, 1)$}
+        \State{$sum \gets 0$}
+        \State{$winner \gets \textsc{randomFloat}(0, 1)$}
+        \For{$participant \in P$}
+          \State{$sum \gets sum + participant.ownedChunks \div p.totalChunks$}
+          \If{$sum > winner$}
+            \State{$participant.funds \gets participant.funds + r$}
+          \EndIf
+        \EndFor
+      \EndIf
+    \EndProcedure
+  \end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}[H]
+  \caption{Reward system that rewards all participants, executed at pool defined intervals}
+  \label{algorithm:chunkreward}
+  \begin{algorithmic}[1]
+    \Procedure{reward}{$P, p, r_c$} \Comment{$P \gets$ participants, $p \gets$ pool, $r_c \gets$ reward per chunk}
+      \For{$participant \in P$}
+        \State{$amount \gets participant.ownedChunks \times r_c$}
+        \State{$pool.funds \gets pool.funds - amount$}
+        \State{$participant.funds \gets participant.funds + amount$}
+      \EndFor
     \EndProcedure
   \end{algorithmic}
 \end{algorithm}
