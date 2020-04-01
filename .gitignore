@@ -1,5 +1,7 @@
 *
 !content
+!media
 !*.tex
 !*.bib
 !*.jpg
+!*.png

@@ -72,7 +72,7 @@
 
 \subsection{Simulation}
 
-\paragraph{} A basic functional implementation of the simulation has been completed, viewable in Appendix \ref{appendix:code} \todo{is it necessary to put this in the appendix?} or available at \url{https://github.com/hans-m-song/harbergers-tax}. The simulation is an implementation of the pseudocode below, with Algorithm \ref{algorithm:trade} being called at intervals based on the pool parameters. In order to simulate the rewards, Algorithm \ref{algorithm:chunkreward} is a simulation of the amortized profit each trade interval and Algorithm \ref{algorithm:poolreward} emulates the actual reward.
+\paragraph{} A basic functional implementation of the simulation has been completed, available at \url{https://github.com/hans-m-song/harbergers-tax}. The simulation is an implementation of the pseudocode below, with Algorithm \ref{algorithm:trade} being called at intervals based on the pool parameters. In order to simulate the rewards, Algorithm \ref{algorithm:reward} emulates the reward and distribution at each block time if the pool was successful in mining a new block.
 
 \begin{algorithm}[H]
   \caption{Executed at pool defined intervals}
@@ -124,58 +124,52 @@
 \end{algorithm}
 
 \begin{algorithm}[H]
-  \caption{Reward system that rewards all participants, executed at pool defined intervals}
-  \label{algorithm:chunkreward}
-  \begin{algorithmic}[1]
-    \Procedure{reward}{$P, p, r_c$} \Comment{$P \gets$ participants, $p \gets$ pool, $r_c \gets$ reward per chunk}
-      \For{$participant \in P$}
-        \State{$amount \gets participant.ownedChunks \times r_c$}
-        \State{$pool.funds \gets pool.funds - amount$}
-        \State{$participant.funds \gets participant.funds + amount$}
-      \EndFor
-    \EndProcedure
-  \end{algorithmic}
-\end{algorithm}
-
-\begin{algorithm}[H]
-  \caption{Reward system that only rewards pool participants, executed at blockchain defined intervals}
-  \label{algorithm:poolreward}
+  \caption{Reward system for pool participants, executed at blockchain defined intervals}
+  \label{algorithm:reward}
   \begin{algorithmic}[1]
     \Procedure{reward}{$P, p, r$} \Comment{$P \gets$ participants, $p \gets$ pool parameters, $r \gets$ reward}
-      \State{$p.funds \gets p.funds + r$}
-      \If{$p.computeShare > \textsc{randomFloat}(0, 1)$}
-        \State{$sum \gets 0$}
-        \State{$winner \gets \textsc{randomFloat}(0, 1)$}
-        \For{$participant \in P$}
-          \State{$amount \gets p.\textsc{rewardDistribution}(participant.ownedChunks)$}
-          \State{$participant.funds \gets participant.funds + amount$}
-          \State{$p.funds \gets p.funds - amount$}
-        \EndFor
-      \EndIf
+      \State{$leftover \gets r$}
+      \For{$participant \in P$}
+        \State{$amount \gets p.\textsc{shareCalc}(participant.ownedChunks)$} \Comment{Share based on pool policy}
+        \State{$participant.funds \gets participant.funds + amount$}
+        \State{$leftover \gets leftover - amount$}
+      \EndFor
+      \State{$p.funds \gets p.funds + leftover$}
     \EndProcedure
   \end{algorithmic}
 \end{algorithm}
 
-% \begin{algorithm}[H]
-%   \caption{Reward system that only rewards singular miner, executed at blockchain defined intervals}
-%   \label{algorithm:reward}
-%   \begin{algorithmic}[1]
-%     \Procedure{reward}{$P, p, r$} \Comment{$P \gets$ participants, $p \gets$ pool parameters, $r \gets$ reward}
-%       \If{$p.computeShare > \textsc{randomFloat}(0, 1)$}
-%         \State{$sum \gets 0$}
-%         \State{$winner \gets \textsc{randomFloat}(0, 1)$}
-%         \For{$participant \in P$}
-%           \State{$sum \gets sum + participant.ownedChunks \div p.totalChunks$}
-%           \If{$sum > winner$}
-%             \State{$participant.funds \gets participant.funds + r$}
-%           \EndIf
-%         \EndFor
-%       \EndIf
-%     \EndProcedure
-%   \end{algorithmic}
-% \end{algorithm}
-
 \subsection{Results}
+
+\paragraph{} some results
+
+\begin{figure}[H]
+  \centering
+  \caption{Balances of all participants, excluding pool}
+  \label{figure:balances}
+  \includegraphics[width=\linewidth]{media/fig-balances}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \caption{Balances of all participants, pool inclusive}
+  \label{figure:balances-pool}
+  \includegraphics[width=\linewidth]{media/fig-balances-pool}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \caption{Rewards earned by pool during game}
+  \label{figure:rewards}
+  \includegraphics[width=\linewidth]{media/fig-rewards}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \caption{Blocks transferred throughout game}
+  \label{figure:blocks}
+  \includegraphics[width=\linewidth]{media/fig-blocks}
+\end{figure}
 
 \subsubsection{Data Collection}
 

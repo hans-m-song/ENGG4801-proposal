@@ -1,5 +1,3 @@
-\todo[inline]{talk about blockchains as a separate section?, page \pageref{blockchainnotes}}
-
 \subsection{Consensus Algorithms}
 
 % \begin{itemize}
@@ -10,14 +8,19 @@
 %   \item solo vs pooled mining
 % \end{itemize}  
 
-\paragraph{} Consensus algorithms are at the core of any blockchain and are an attempt at overcoming the issue of overall system consistency of the blockchain despite faulty or malicious participants in a distributed, trustless environment. The primary obstacle of blockchains that consensus algorithms are designed to solve is the Byzantine Generals Problem: \todo{cite?} a scenario in which allied generals geographically separated by the enemy are attempting to communicate without the message being caught and tampered with. 
+\paragraph{} Consensus algorithms are at the core of any blockchain and are an attempt at overcoming the issue of overall system consistency of the blockchain despite faulty or malicious participants in a distributed, trustless environment. The primary obstacle of blockchains that consensus algorithms are designed to solve is the Byzantine Generals Problem \cite{lamportshostakpease1982}: a scenario in which allied generals geographically separated by the enemy are attempting to communicate without the message being caught and tampered with. 
 
-\paragraph{} Proof of Work (PoW) overcomes this issue using a variation of HashCash \cite{back2002} by creating a cryptographic puzzle with Merkle trees \todo{should i go into detail about how this works?} that is computationally expensive with the solution used as verification for the next block. Attempting to rewrite history or faking blocks requires having enough computational power to solve the puzzles of each related block and overtake the creation of the next block, creating a chain that is longer than the honest chain or a \textit{hard fork}.
+\paragraph{} Proof of Work (PoW) overcomes this issue using a variation of HashCash \cite{back2002} by creating a cryptographic puzzle with Merkle trees that is computationally expensive with the solution used as verification for the next block. Attempting to rewrite history or faking blocks requires having enough computational power to solve the puzzles of each related block and overtake the creation of the next block, creating a chain that is longer than the honest chain or a \textit{hard fork}.
 
 % PoW relies on a non-trivial amount of adequately distributed computational power to ensure the immutability of it's public ledger. While this 
 % payout is dependent on pool policy
 
-\todo[inline]{talk about how mining works as a seperate section?}
+\subsection{Mining Rewards}
+
+
+
+\todo[inline]{talk about how mining works as a seperate section \\
+for mining, you may need to discuss it to the extent that people understand the reward is proportional to the mining power}
 
 \subsection{Mining Pools}
 
