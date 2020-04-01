@@ -1,4 +1,4 @@
-\todo[inline]{talk about blockchains as a separate section?}
+\todo[inline]{talk about blockchains as a separate section?, page \pageref{blockchainnotes}}
 
 \subsection{Consensus Algorithms}
 
@@ -12,7 +12,7 @@
 
 \paragraph{} Consensus algorithms are at the core of any blockchain and are an attempt at overcoming the issue of overall system consistency of the blockchain despite faulty or malicious participants in a distributed, trustless environment. The primary obstacle of blockchains that consensus algorithms are designed to solve is the Byzantine Generals Problem: \todo{cite?} a scenario in which allied generals geographically separated by the enemy are attempting to communicate without the message being caught and tampered with. 
 
-\paragraph{} Proof of Work (PoW) overcomes this issue using a variation of HashCash \cite{back2002} by creating a cryptographic puzzle with Merkle trees \todo{should i go into detail about how this works?} that is computationally expensive with the solution used as verification for the next block. Attempting to rewrite history or faking blocks requires having enough computational power to solve the puzzles of each related block and overtake the creation of the next block, creating a \textit{hard fork}.
+\paragraph{} Proof of Work (PoW) overcomes this issue using a variation of HashCash \cite{back2002} by creating a cryptographic puzzle with Merkle trees \todo{should i go into detail about how this works?} that is computationally expensive with the solution used as verification for the next block. Attempting to rewrite history or faking blocks requires having enough computational power to solve the puzzles of each related block and overtake the creation of the next block, creating a chain that is longer than the honest chain or a \textit{hard fork}.
 
 % PoW relies on a non-trivial amount of adequately distributed computational power to ensure the immutability of it's public ledger. While this 
 % payout is dependent on pool policy
@@ -34,6 +34,10 @@
 
 \paragraph{} Miners are incentivized by the profit rather than maintaining the integrity of the blockchain. Hence, as  more computational power is dedicated to mining, the difficulty increases proportionally in order to control block creation speed. In order to make up for the increased difficulty, miners can pool their resources so if any member is able to create a valid solution, every contributing member receives a portion of the reward. While the amount would be very similar to mining individually, the variance of payout is reduced, essentially increasing $h$ to the sum of the pool's hash-rate and decreasing $R$ to the work contributed relative to the pool.
 
+\subsection{Sharing Economy} \label{section:sharingeconomy}
+
+\paragraph{} The Sharing economy (or Access economy) is an economic model with the premise of selling "access" to goods or services rather than giving "ownership". In terms of a consumer and provider, a consumer does not shoulder the costs associated with ownership such as maintenance while the provider may reuse the goods or services for multiple customers. 
+
 \subsection{Harberger Tax} \label{section:harbergerstax}
 
 % \begin{itemize}
@@ -50,7 +54,7 @@
 
 \todo[inline]{talk about pros, cons, trends towards a stable price}
 
-\paragraph{} When the policy is enacted, participants are able to set a price on their property through self-assessed valuation. As participants are unable to prevent the sale of their items, nor are they able to set the price prohibitively expensive
+\paragraph{} When the policy is enacted, participants are able to set a price on their property through self-assessed valuation. As participants are unable to prevent the sale of their items, nor are they able to set the price prohibitively expensive as they would be unable to afford the corresponding tax. 
 
 \paragraph{} In the context of this project, some modifications and additional rules are required:
 
@@ -59,12 +63,36 @@
   \item In the situation an owner is unable to afford the tax, they relinquish ownership of their property. The property is returned to a global pool of unowned property that participants may attempt to purchase through auction.
 \end{itemize}
 
+\paragraph{} The Harberger Tax can be enacted in combination with the Sharing economy \ref{section:sharingeconomy} to create a economy that causes pricing to trend towards their actual value.
+
 \subsection{Nash Equilibrium}
 
-\paragraph{} Given a non-cooperative game in which each players strategy is known by their opponent(s), the Nash equilibrium is the proposed \textit{best solution} in which all players are acting based on \textit{best decision} they can while aware of the decisions their opponent(s) will make.
+\paragraph{} Given a non-cooperative game in which each players strategy is known by their opponent(s), the Nash equilibrium is the proposed \textit{best solution} in which all players are acting based on \textit{best decision} they can while aware of the decisions their opponent(s) will make. First, the strategies of all players, the possible decisions, and all possible game states must be defined (at least in natural language). A table is then constructed in the following format:
+
+\begin{table}[H]
+  \centering
+  \caption{Example of a Nash equilibrium coordination game}
+  \label{table:nashexample}
+  \begin{tabular}{|l||*{5}{c|}}\hline
+    \backslashbox{Player A}{Player B}&\makebox{Strategy 1}&\makebox{Strategy 2}&\makebox{Strategy n} \\
+    \hline \hline
+    Strategy 1 & $a_1$, $b_1$ & $a_1$, $b_2$ & $a_1$, $b_n$ \\ \hline
+    Strategy 2 & $a_2$, $b_1$ & $a_2$, $b_2$ & $a_2$, $b_n$ \\ \hline
+    Strategy n & $a_n$, $b_1$ & $a_n$, $b_2$ & $a_n$, $b_n$ \\ \hline
+  \end{tabular}
+\end{table}
+
+\paragraph{} From Table \ref{table:nashexample}, each cell represents a game in which Player A and Player B each chose a particular strategy.
 
 \begin{itemize}
   \item defining parameters
   \item defining strategies
   \item deriving the equilibria
+\end{itemize}
+
+\begin{itemize}
+  \item Define the strategies of each entity
+  \item Define all potential states of the game
+  \item Adapt the mathematically modelled relationships into equations based on probabilistic factors
+  \item Apply equations to each potential scenario
 \end{itemize}

@@ -1,12 +1,12 @@
 \subsection{System design} % or Proposed Solution?
 
-\paragraph{} The system is broken up into several components of increasing specificity (i.e. Buyer $|$ Seller $\in$ Pool $\in$ Blockchain $\in$ Global). Each component exists in a set under it's parent. The system can be described in the following terms and relationships:
+\paragraph{} The system is broken up into several components of increasing specificity (i.e. Participant $\in$ Pool $\in$ Blockchain $\in$ Global). Each component exists in a set under it's parent. The system can be described in the following terms and relationships:
 
 \paragraph{Global} 
 
 \begin{itemize}
   \item $\mathbb{H}$ - Global \textbf{h}ash rate
-  \item $B$ - Set of \textbf{b}lockchains
+  \item $S_B$ - \textbf{S}et of \textbf{b}lockchains
   \item $T$ - \textbf{t}ime
 \end{itemize}
 
@@ -15,7 +15,7 @@
 \begin{itemize}
   \item $\mathbb{R}$ - Block \textbf{r}eward
   \item $b$ - \textbf{B}lock time
-  \item $P$ - Set of \textbf{p}ools
+  \item $S_P$ - \textbf{S}et of \textbf{p}ools
 \end{itemize}
 
 \paragraph{Pool}
@@ -32,7 +32,7 @@
       R = \frac{\mathbb{R}}{c} \times \frac{H}{\mathbb{H}}
     \end{equation}
     \todo[inline]{what if chunk computational power or reward is varied}
-  \item $P$ - Set of \textbf{p}articipants
+  \item $P_p$ - \textbf{S}et of \textbf{p}articipants
 \end{itemize}
 
 \paragraph{Participant}
@@ -68,11 +68,11 @@
   profit_{sale} = (y \times p_s)
 \end{equation}
 
-\paragraph{} At time $I_0$, all participants begin with $x = 0$ and a randomized amount of funds and the pool begins will $c = C$. Between each interval $I_i$ to $I_{i + t}$, participants will have an opportunity to initiate an auction for any of the available chunks $c$ from the pool at a starting rate of $p_p$ or from any of the other participants at their set price $p_s$ while keeping in mind their potential profit from Equations \ref{equation:profitpurchase} and \ref{equation:profitheld}. Finally, a tax is deducted from each participant according to Equation \ref{equation:tax} where $x = participant.x$ at $I_{i + t}$
+\paragraph{} At time $I_0$, all participants begin with $x = 0$ and a randomized amount of funds and the pool begins will $c = C$. Between each interval $I_i$ to $I_{i + t}$, participants will have an opportunity to initiate an auction for any of the available chunks $c$ from the pool at a starting rate of $p_p$ or from any of the other participants at their set price $p_s$ while keeping in mind their potential profit from Equations \ref{equation:profitpurchase} and \ref{equation:profitheld}. Finally, a tax is deducted from each participant according to Equation \ref{equation:tax} where $x = participant.x$ at $I_{i + t}$.
 
 \subsection{Simulation}
 
-\paragraph{} A basic functional implementation of the simulation has been completed, viewable in Appendix \ref{appendix:code} \todo{is it necessary to put this in the appendix?} or available at \url{https://github.com/hans-m-song/harbergers-tax}. The simulation is an implementation of the pseudocode below, with Algorithm \ref{algorithm:trade} being called at intervals based on the pool parameters and Algorithm \ref{algorithm:reward} being called at intervals based on the blockchain parameters. An alternate reward system will also be simulated in which Algorithm \ref{algorithm:reward} will reward the pool directly and Algorithm \ref{algorithm:chunkreward} will be executed, distributing the reward to the players
+\paragraph{} A basic functional implementation of the simulation has been completed, viewable in Appendix \ref{appendix:code} \todo{is it necessary to put this in the appendix?} or available at \url{https://github.com/hans-m-song/harbergers-tax}. The simulation is an implementation of the pseudocode below, with Algorithm \ref{algorithm:trade} being called at intervals based on the pool parameters. In order to simulate the rewards, Algorithm \ref{algorithm:chunkreward} is a simulation of the amortized profit each trade interval and Algorithm \ref{algorithm:poolreward} emulates the actual reward.
 
 \begin{algorithm}[H]
   \caption{Executed at pool defined intervals}
@@ -124,25 +124,6 @@
 \end{algorithm}
 
 \begin{algorithm}[H]
-  \caption{Reward system that only rewards singular miner, executed at blockchain defined intervals}
-  \label{algorithm:reward}
-  \begin{algorithmic}[1]
-    \Procedure{reward}{$P, p, r$} \Comment{$P \gets$ participants, $p \gets$ pool parameters, $r \gets$ reward}
-      \If{$p.computeShare > \textsc{randomFloat}(0, 1)$}
-        \State{$sum \gets 0$}
-        \State{$winner \gets \textsc{randomFloat}(0, 1)$}
-        \For{$participant \in P$}
-          \State{$sum \gets sum + participant.ownedChunks \div p.totalChunks$}
-          \If{$sum > winner$}
-            \State{$participant.funds \gets participant.funds + r$}
-          \EndIf
-        \EndFor
-      \EndIf
-    \EndProcedure
-  \end{algorithmic}
-\end{algorithm}
-
-\begin{algorithm}[H]
   \caption{Reward system that rewards all participants, executed at pool defined intervals}
   \label{algorithm:chunkreward}
   \begin{algorithmic}[1]
@@ -155,6 +136,44 @@
     \EndProcedure
   \end{algorithmic}
 \end{algorithm}
+
+\begin{algorithm}[H]
+  \caption{Reward system that only rewards pool participants, executed at blockchain defined intervals}
+  \label{algorithm:poolreward}
+  \begin{algorithmic}[1]
+    \Procedure{reward}{$P, p, r$} \Comment{$P \gets$ participants, $p \gets$ pool parameters, $r \gets$ reward}
+      \State{$p.funds \gets p.funds + r$}
+      \If{$p.computeShare > \textsc{randomFloat}(0, 1)$}
+        \State{$sum \gets 0$}
+        \State{$winner \gets \textsc{randomFloat}(0, 1)$}
+        \For{$participant \in P$}
+          \State{$amount \gets p.\textsc{rewardDistribution}(participant.ownedChunks)$}
+          \State{$participant.funds \gets participant.funds + amount$}
+          \State{$p.funds \gets p.funds - amount$}
+        \EndFor
+      \EndIf
+    \EndProcedure
+  \end{algorithmic}
+\end{algorithm}
+
+% \begin{algorithm}[H]
+%   \caption{Reward system that only rewards singular miner, executed at blockchain defined intervals}
+%   \label{algorithm:reward}
+%   \begin{algorithmic}[1]
+%     \Procedure{reward}{$P, p, r$} \Comment{$P \gets$ participants, $p \gets$ pool parameters, $r \gets$ reward}
+%       \If{$p.computeShare > \textsc{randomFloat}(0, 1)$}
+%         \State{$sum \gets 0$}
+%         \State{$winner \gets \textsc{randomFloat}(0, 1)$}
+%         \For{$participant \in P$}
+%           \State{$sum \gets sum + participant.ownedChunks \div p.totalChunks$}
+%           \If{$sum > winner$}
+%             \State{$participant.funds \gets participant.funds + r$}
+%           \EndIf
+%         \EndFor
+%       \EndIf
+%     \EndProcedure
+%   \end{algorithmic}
+% \end{algorithm}
 
 \subsection{Results}
 
