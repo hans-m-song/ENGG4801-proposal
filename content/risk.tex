@@ -1,0 +1,66 @@
+\paragraph{} As there is no physical involvement in this project, the risks will be based on challenges that may be encountered during the project.
+
+\begin{table}[H]
+  \centering
+  \caption{Severity classes}
+  \begin{tabular}{|p{1cm}|p{2.5cm}|p{10cm}|} \hline
+    \bf Rank & \bf Severity class & \bf Description                                                                                                             \\ \hline
+    4        & Catastrophic       & Results in complete restart of project or change in topic                                                                   \\ \hline
+    3        & Critical           & Results in changing large changes to the project, requires one to two months to rectify                                     \\ \hline
+    2        & Major              & Results in changing several aspects of the project or several milestones, requires between one week to one month to rectify \\ \hline
+    1        & Minor              & Results in changing a single aspect of the project or a single milestone, requires between one day to one week to rectify   \\ \hline
+  \end{tabular}
+\end{table}
+
+\begin{table}[H]
+  \centering
+  \caption{Probability classes}
+  \begin{tabular}{|p{1cm}|p{2.5cm}|p{10cm}|} \hline
+    \bf Rank & \bf Probability class & \bf Description             \\ \hline
+    4        & Frequent              & Once per week or more often \\ \hline
+    3        & Likely                & Once per month              \\ \hline
+    2        & Unlikely              & Once per 3 months           \\ \hline
+    1        & Remote                & Once per 6 months or less   \\ \hline
+  \end{tabular}
+\end{table}
+
+\begin{table}[H]
+  \centering
+  \caption{Risk matrix color legend}
+  \begin{tabular}{|p{1cm}|p{8cm}|} \hline
+    \bf Color          & \bf Legend                                        \\ \hline
+    \cellcolor{red}    & Not acceptable, reduction required                \\ \hline
+    \cellcolor{orange} & Barely acceptable, reduction should be considered \\ \hline
+    \cellcolor{yellow} & Acceptable but should be aware                    \\ \hline
+    \cellcolor{green}  & Acceptable                                        \\ \hline
+  \end{tabular}
+\end{table}
+
+\begin{table}[H]
+  \centering
+  \caption{Risk matrix}
+  \begin{tabular}{|l|l|l|l|l|l|} \hline
+    \bf \backslashbox{Severity}{Probability} & \bf Remote, 1      & \bf Unlikely, 2    & \bf Likely, 3      & \bf Frequent, 4    \\ \hline
+    \bf Catastrophic, 4                      & \cellcolor{orange} & \cellcolor{red}    & \cellcolor{red}    & \cellcolor{red}    \\ \hline
+    \bf Critical, 3                          & \cellcolor{yellow} & \cellcolor{orange} & \cellcolor{orange} & \cellcolor{red}    \\ \hline
+    \bf Major, 2                             & \cellcolor{green}  & \cellcolor{yellow} & \cellcolor{yellow} & \cellcolor{orange} \\ \hline
+    \bf Minor, 1                             & \cellcolor{green}  & \cellcolor{green}  & \cellcolor{green}  & \cellcolor{yellow} \\ \hline
+  \end{tabular}
+\end{table}
+
+\begin{landscape}
+  \begin{table}[H]
+    \centering
+    \caption{Risk matrix}
+    \begin{tabular}{|l|p{5cm}|l|l|p{5cm}|l|l|l|} \hline
+      \bf Identifier         & \bf Probable Causes                                                           & \bf Probability & \bf Severity & \bf Preventative or Corrective Actions                                               & \bf Probability After & \bf Severity After & \bf Level          \\ \hline
+      \cellcolor{red} R.1    & The project topic is implemented completed elsewhere                          & 2               & 4            & Ensure to refresh research on a regular basis                                        & 1                     & 4                  & \cellcolor{orange} \\ \hline
+      \cellcolor{yellow} R.2 & Concepts used by the project are deemed unsuitable or not sufficient          & 1               & 3            & Ensure to refresh research on a regular basis                                        & 1                     & 2                  & \cellcolor{green} \\ \hline
+      \cellcolor{orange} U.1 & The model is deemed less profitable than current pool implementations         & 2               & 3            & Ensure qualitative analysis to compare factors apart form profitability              & 2                     & 2                  & \cellcolor{yellow} \\ \hline
+      \cellcolor{green} U.2  & Software used releases breaking changes or more suitable software is released & 2               & 1            & Ensure backwards-compatibility is available before switching to new software         & 2                     & 1                  & \cellcolor{green} \\ \hline
+      \cellcolor{yellow} L.1 & An aspect of the formal model is missing or incorrectly represented           & 3               & 2            & Review model on a regular basis                                                      & 2                     & 2                  & \cellcolor{yellow}  \\ \hline
+      \cellcolor{yellow} L2  & A parameter skews a simulation result                                         & 3               & 2            & Ensure to manually review all simulation results and use averages to smooth outliers & 2                     & 1                  & \cellcolor{green}  \\ \hline
+      \cellcolor{yellow} F.1 & An aspect of the simulation is incorrectly implemented                        & 4               & 1            & Write unit tests to ensure correct functionality                                     & 3                     & 1                  & \cellcolor{green}  \\ \hline
+    \end{tabular}
+  \end{table}
+\end{landscape}

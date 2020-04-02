@@ -31,7 +31,6 @@
     \begin{equation} \label{equation:chunkreward}
       R = \frac{\mathbb{R}}{c} \times \frac{H}{\mathbb{H}}
     \end{equation}
-    \todo[inline]{what if chunk computational power or reward is varied}
   \item $P_p$ - \textbf{S}et of \textbf{p}articipants
 \end{itemize}
 
@@ -73,6 +72,22 @@
 \subsection{Simulation}
 
 \paragraph{} A basic functional implementation of the simulation has been completed, available at \url{https://github.com/hans-m-song/harbergers-tax}. The simulation is an implementation of the pseudocode below, with Algorithm \ref{algorithm:trade} being called at intervals based on the pool parameters. In order to simulate the rewards, Algorithm \ref{algorithm:reward} emulates the reward and distribution at each block time if the pool was successful in mining a new block.
+
+\begin{algorithm}[H]
+  \caption{Reward system for pool participants, executed at blockchain defined intervals}
+  \label{algorithm:reward}
+  \begin{algorithmic}[1]
+    \Procedure{reward}{$P, p, r$} \Comment{$P \gets$ participants, $p \gets$ pool parameters, $r \gets$ reward}
+      \State{$leftover \gets r$}
+      \For{$participant \in P$}
+        \State{$amount \gets p.\textsc{shareCalc}(participant.ownedChunks)$} \Comment{Share based on pool policy}
+        \State{$participant.funds \gets participant.funds + amount$}
+        \State{$leftover \gets leftover - amount$}
+      \EndFor
+      \State{$p.funds \gets p.funds + leftover$}
+    \EndProcedure
+  \end{algorithmic}
+\end{algorithm}
 
 \begin{algorithm}[H]
   \caption{Executed at pool defined intervals}
@@ -123,22 +138,6 @@
   \end{algorithmic}
 \end{algorithm}
 
-\begin{algorithm}[H]
-  \caption{Reward system for pool participants, executed at blockchain defined intervals}
-  \label{algorithm:reward}
-  \begin{algorithmic}[1]
-    \Procedure{reward}{$P, p, r$} \Comment{$P \gets$ participants, $p \gets$ pool parameters, $r \gets$ reward}
-      \State{$leftover \gets r$}
-      \For{$participant \in P$}
-        \State{$amount \gets p.\textsc{shareCalc}(participant.ownedChunks)$} \Comment{Share based on pool policy}
-        \State{$participant.funds \gets participant.funds + amount$}
-        \State{$leftover \gets leftover - amount$}
-      \EndFor
-      \State{$p.funds \gets p.funds + leftover$}
-    \EndProcedure
-  \end{algorithmic}
-\end{algorithm}
-
 \subsection{Results}
 
 \subsubsection{Data Collection}
@@ -146,6 +145,7 @@
 \paragraph{Parameters} The following parameters were used to run the simulation for a single pool:
 
 \begin{itemize}
+  \item The computational power of each chunk was equal
   \item Block reward $\mathbb{R} = 10$
   \item Block time $b = 1s$
   \item Trade interval $t = 0.2s$

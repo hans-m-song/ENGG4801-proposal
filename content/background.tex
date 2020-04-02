@@ -8,101 +8,81 @@
 %   \item solo vs pooled mining
 % \end{itemize}  
 
-\paragraph{} Consensus algorithms are at the core of any blockchain and are an attempt at overcoming the issue of overall system consistency of the blockchain despite faulty or malicious participants in a distributed, trustless environment. The primary obstacle of blockchains that consensus algorithms are designed to solve is the Byzantine Generals Problem \cite{lamportshostakpease1982}: a scenario in which allied generals geographically separated by the enemy are attempting to communicate without the message being caught and tampered with. 
+\paragraph{} Consensus algorithms are at the core of any blockchain and are an attempt at overcoming the issue of overall system consistency of the blockchain despite faulty or malicious participants in a distributed, trustless environment. The primary obstacle of blockchains that consensus algorithms are designed to solve is the Byzantine Generals Problem \cite{lamportshostakpease1982}: a scenario in which allied generals geographically separated by the enemy are attempting to communicate without the message being caught and tampered with.
 
 \paragraph{} Proof of Work (PoW) overcomes this issue using a variation of HashCash \cite{back2002} by creating a cryptographic puzzle with Merkle trees that is computationally expensive with the solution used as verification for the next block. Attempting to rewrite history or faking blocks requires having enough computational power to solve the puzzles of each related block and overtake the creation of the next block, creating a chain that is longer than the honest chain or a \textit{hard fork}.
 
 % PoW relies on a non-trivial amount of adequately distributed computational power to ensure the immutability of it's public ledger. While this 
 % payout is dependent on pool policy
 
-\subsection{Mining Rewards}
+\subsection{Mining} \label{section:mining}
 
+\paragraph{} The blocks on a blockchain contain a timestamp, verified transactions, and most importantly a cryptographic hash of the previous block which facilitates the chaining. The process of mining a block is designed to be prohibitively difficult and aims to be solvable in a consistent time. It involves several components:
 
+\begin{itemize}
+  \item $T$ A collection of unverified transactions (not yet on the blockchain)
+  \item $t$ - The digest of a Merkle tree created from $T$
+  \item $h_p$ - The hash of the previous block.
+  \item $n$ - A random string otherwise known as the \textit{nonce}.
+  \item $\lambda$ - The difficulty of the puzzle (where $\lambda > 1$) where $\lambda$ is the required number of zeroes padding the solution (changes every 2016 blocks).
+  \item $\mathbb{H}$ - The hash function chosen by the miner that outputs 256 bits based on the input.
+  \item $H$ - Hash rate of the miner.
+\end{itemize}
 
-\todo[inline]{talk about how mining works as a seperate section \\
-for mining, you may need to discuss it to the extent that people understand the reward is proportional to the mining power}
+\noindent The miner is required to verify transactions $T$ and \textit{pack} them by hashing them into a Merkle tree. Then, they must create a suitable hash for the block. A potential hash is found via the function $h = \mathbb{H}(t \| h_p \| n)$, when an appropriate nonce is chosen, $h$ should satisfy the condition $h \leq \frac{2^{246}}{\lambda}$ to be a suitable solution. The difficulty $\lambda$ is chosen such that the computational work necessary to solve the problem will require the full block time. That is in $\frac{\lambda \times 2^{32}}{h}$ seconds based on the average hash rate of the last 2016 blocks \cite{difficulty2019}.
+
+\paragraph{} At the time of writing the difficulty is 14776367535688.64 \cite{blockexplorer2020} which would require approximately 105EH/s. An individual miner with an Antminer S19 Pro at 110 TH/s \cite{antminer2018} would expect to generate a valid block in $\frac{14776367535688.64 \times 2^{32}}{110 \times 10^12} \approx 576945593$ seconds or 18.3 years. The miner would own $\frac{h}{H} = \frac{110 \times 10^{12}}{100 \times 10^{18}} = 0.0000011\%$ of the global hash rate. If it is assumed the miner eventually succeeds in mining a block, distributing their reward over all unsuccessful blocks yields an amortized profit of $p = \frac{h}{H} \times R$ per block. Hence, as their computational power increases, their amortized reward per block increases.
 
 \subsection{Mining Pools}
 
-\paragraph{} While the intention of PoW is for each participant mine individually for a truly decentralized implementation, there is no punishment for collusion, nor is behaving honestly always the most profitable method of participation. Given the following parameters:
-
-\begin{itemize}
-  \item $R$ - reward for successfully solving the puzzle.
-  \item $h$ - the hash-rate of the miner.
-  \item $H$ - global total hash-rate.
-  \item $\lambda$ - difficulty of the puzzle, changing every 2016 blocks.
-\end{itemize}
-
-\noindent A miner would expect to generate a valid solution in $t = \frac{\lambda \times 2^{32}}{h}$ \cite{difficulty2019} seconds or an amortized profit of $p = \frac{h}{H} \times \frac{R}{t \times 600}$ per block.
-
-\paragraph{} Miners are incentivized by the profit rather than maintaining the integrity of the blockchain. Hence, as  more computational power is dedicated to mining, the difficulty increases proportionally in order to control block creation speed. In order to make up for the increased difficulty, miners can pool their resources so if any member is able to create a valid solution, every contributing member receives a portion of the reward. While the amount would be very similar to mining individually, the variance of payout is reduced, essentially increasing $h$ to the sum of the pool's hash-rate and decreasing $R$ to the work contributed relative to the pool.
+\paragraph{} While the intention of PoW is for each participant mine individually for a truly decentralized implementation, there is no punishment for collusion, nor is behaving honestly always the most profitable method of participation. Miners are incentivized by the profit rather than maintaining the integrity of the blockchain. Hence, as  more computational power is dedicated to mining, the difficulty increases proportionally in order to control block creation speed. In order to make up for the increased difficulty, miners can pool their resources so if any member is able to create a valid solution, every contributing member receives a portion of the reward. While the amount would be very similar to mining individually, the variance of payout is reduced, essentially increasing $h$ to the sum of the pool's hash-rate and decreasing $R$ to the work contributed relative to the pool's distribution policy (normally equivalent to the shares contributed). If the miner in the previous section (\ref{section:mining}) joins a pool that contributes 10\% of the global hash-rate, the pool will likely receive the reward once every 10 blocks.
 
 \subsection{Sharing Economy} \label{section:sharingeconomy}
 
-\paragraph{} The Sharing economy (or Access economy) is an economic model with the premise of selling "access" to goods or services rather than giving "ownership". In terms of a consumer and provider, a consumer does not shoulder the costs associated with ownership such as maintenance while the provider may reuse the goods or services for multiple customers. 
+\paragraph{} The Sharing economy (or Access economy) is an economic model with the premise of selling "access" to goods or services rather than giving "ownership". In terms of a consumer and provider, a consumer does not shoulder the costs associated with ownership such as maintenance while the provider may reuse the goods or services for multiple customers. The proposed economic model can be considered a Sharing economy as computational power is sold for participants to use but do not give them ownership.
 
 \subsection{Harberger Tax} \label{section:harbergerstax}
-
-% \begin{itemize}
-%   \item incentivization of proper distribution
-%   \item tax on transaction instead of interval?
-% \end{itemize}
 
 \paragraph{} The Harberger Tax is an economic policy that aims to prevent unequal distribution of property through two rules:
 
 \begin{itemize}
-  \item Owners assign a self-assessed value to their property and pay a proportional tax. \todo{tax on an interval or per transactions}
+  \item Owners assign a self-assessed value to their property and pay a proportional tax.
   \item The owner is unable to prevent anybody from purchasing their property at their previously set price.
 \end{itemize}
 
-\todo[inline]{talk about pros, cons, trends towards a stable price}
+\noindent The purpose of the first rule is to discourage owners from monopolizing their property by assigning a prohibitively high price to prevent others from purchasing as they themselves would have to shoulder a portion of the cost. The next rule ensures the mobility of property and that there is no incentive to invest in their property as it is likely to be taken at any given point. This combats the issue of price inflation where an owner may "hold" their property and increase demand and inflate the price.
 
-\paragraph{} When the policy is enacted, participants are able to set a price on their property through self-assessed valuation. As participants are unable to prevent the sale of their items, nor are they able to set the price prohibitively expensive as they would be unable to afford the corresponding tax. 
+\paragraph{} When the policy is enacted, participants are able to set a price on their property through self-assessed valuation. As participants are unable to prevent the sale of their items, nor are they able to set the price prohibitively expensive as they would be unable to afford the corresponding tax.
 
 \paragraph{} In the context of this project, some modifications and additional rules are required:
 
 \begin{itemize}
   \item Participants attempting to purchase will instead initiate an auction instead of a direct sale.
-  \item In the situation an owner is unable to afford the tax, they relinquish ownership of their property. The property is returned to a global pool of unowned property that participants may attempt to purchase through auction.
+  \item In the situation an owner is unable to afford the tax, they relinquish ownership of their property. The property is returned to a global pool of unowned property that participants may attempt to purchase through auction starting at the pools sale price.
 \end{itemize}
 
 \paragraph{} The Harberger Tax can be enacted in combination with the Sharing economy \ref{section:sharingeconomy} to create a economy that causes pricing to trend towards their actual value.
 
-\subsection{Game Theory} 
+\subsection{Strategic Game} \label{section:strategic}
 
-\paragraph{} A model can be considered a strategic game if it consists of a finite set of decision-makers $N$ from which each decision-maker has a non-empty set of action profiles $A_i$ that are non-revokable and will be executed simultaneously based on associated preferences \cite[Definition 11.1]{osborne1994}. A key factor is that each decision-maker's preferences must also take into account all possible decisions in the game. This definition can be applied to a wide variety of scenarios including the economic model in this proposal, with participants acting as the decision-makers, and their actions being based on not only their own circumstances, but also the actions of other participants.
+\paragraph{} A model can be considered a strategic game if it consists of a finite set of decision-makers $N$ from which each decision-maker has a non-empty set of action profiles $A_i$ that are non-revokable and will be executed simultaneously based on associated preferences \cite[Section 2.1]{osborne1994}. A key factor is that each decision-maker's preferences must also take into account all possible decisions in the game. This definition can be applied to a wide variety of scenarios including the economic model in this proposal, with participants acting as the decision-makers, and their actions being based on not only their own circumstances, but also the actions of other participants.
 
-\subsection{Nash Equilibrium} \label{section:nash}
-
-\cite[Definition 14.1]{osborne1994}
-
-\paragraph{} The Nash equilibrium is a representation of the game at a point when all players 
-Given a non-cooperative game in which each players strategy is known by their opponent(s), the Nash equilibrium is the proposed \textit{best solution} in which all players are acting based on \textit{best decision} they can while aware of the decisions their opponent(s) will make. First, the strategies of all players, the possible decisions, and all possible game states must be defined (at least in natural language). A table is then constructed in the following format:
+\paragraph{} Once players and their strategies are defined, a table can be constructed in the following format:
 
 \begin{table}[H]
   \centering
-  \caption{Example of a Nash equilibrium coordination game}
+  \caption{Example of a finite game with two players, each having $n$ decisions}
   \label{table:nashexample}
   \begin{tabular}{|l||*{5}{c|}}\hline
-    \backslashbox{Player A}{Player B}&\makebox{Strategy 1}&\makebox{Strategy 2}&\makebox{Strategy n} \\
+    \backslashbox{Player A}{Player B} & \makebox{Strategy 1} & \makebox{Strategy 2} \\
     \hline \hline
-    Strategy 1 & $a_1$, $b_1$ & $a_1$, $b_2$ & $a_1$, $b_n$ \\ \hline
-    Strategy 2 & $a_2$, $b_1$ & $a_2$, $b_2$ & $a_2$, $b_n$ \\ \hline
-    Strategy n & $a_n$, $b_1$ & $a_n$, $b_2$ & $a_n$, $b_n$ \\ \hline
+    Strategy 1                        & $a_1$, $b_1$         & $a_1$, $b_2$         \\ \hline
+    Strategy 2                        & $a_2$, $b_1$         & $a_2$, $b_2$         \\ \hline
   \end{tabular}
 \end{table}
 
-\paragraph{} From Table \ref{table:nashexample}, each cell represents a game in which Player A and Player B each chose a particular strategy.
+\noindent From Table \ref{table:nashexample}, each cell represents a game in which Player A and Player B each chose a particular strategy which results in a \textit{payoff function} that represents the outcome of the game if the decisions in that cell were taken.
 
-\begin{itemize}
-  \item defining parameters
-  \item defining strategies
-  \item deriving the equilibria
-\end{itemize}
+\subsection{Nash Equilibrium} \label{section:nash}
 
-\begin{itemize}
-  \item Define the strategies of each agent
-  \item Define all potential states of the game
-  \item Adapt the mathematically modelled relationships into equations based on probabilistic factors
-  \item Apply equations to each potential scenario
-\end{itemize}
+\paragraph{} Given a non-cooperative game in which each players strategy is known by their opponent(s), the Nash equilibrium is the proposed \textit{steady state} in which all players are acting based on the \textit{best decision} they can while aware of the actions their opponent(s) will take \cite[Section 2.2]{osborne1994}. Once the strategies of all players, the possible decisions, and all possible game states are defined (at least in natural language) according to the requirements of a strategic game (defined in Section \ref{section:strategic}), a Nash equilibrium exists for any action profile in which all players make a decision such that no player can make a decision that results in an outcome more preferred than the current game state.
