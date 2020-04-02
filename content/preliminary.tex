@@ -74,22 +74,6 @@
 \paragraph{} A basic functional implementation of the simulation has been completed, available at \url{https://github.com/hans-m-song/harbergers-tax}. The simulation is an implementation of the pseudocode below, with Algorithm \ref{algorithm:trade} being called at intervals based on the pool parameters. In order to simulate the rewards, Algorithm \ref{algorithm:reward} emulates the reward and distribution at each block time if the pool was successful in mining a new block.
 
 \begin{algorithm}[H]
-  \caption{Reward system for pool participants, executed at blockchain defined intervals}
-  \label{algorithm:reward}
-  \begin{algorithmic}[1]
-    \Procedure{reward}{$P, p, r$} \Comment{$P \gets$ participants, $p \gets$ pool parameters, $r \gets$ reward}
-      \State{$leftover \gets r$}
-      \For{$participant \in P$}
-        \State{$amount \gets p.\textsc{shareCalc}(participant.ownedChunks)$} \Comment{Share based on pool policy}
-        \State{$participant.funds \gets participant.funds + amount$}
-        \State{$leftover \gets leftover - amount$}
-      \EndFor
-      \State{$p.funds \gets p.funds + leftover$}
-    \EndProcedure
-  \end{algorithmic}
-\end{algorithm}
-
-\begin{algorithm}[H]
   \caption{Executed at pool defined intervals}
   \label{algorithm:trade}
   \begin{algorithmic}[1]
@@ -138,6 +122,22 @@
   \end{algorithmic}
 \end{algorithm}
 
+\begin{algorithm}[H]
+  \caption{Reward system for pool participants, executed at blockchain defined intervals}
+  \label{algorithm:reward}
+  \begin{algorithmic}[1]
+    \Procedure{reward}{$P, p, r$} \Comment{$P \gets$ participants, $p \gets$ pool parameters, $r \gets$ reward}
+      \State{$leftover \gets r$}
+      \For{$participant \in P$}
+        \State{$amount \gets p.\textsc{shareCalc}(participant.ownedChunks)$} \Comment{Share based on pool policy}
+        \State{$participant.funds \gets participant.funds + amount$}
+        \State{$leftover \gets leftover - amount$}
+      \EndFor
+      \State{$p.funds \gets p.funds + leftover$}
+    \EndProcedure
+  \end{algorithmic}
+\end{algorithm}
+
 \subsection{Results}
 
 \subsubsection{Data Collection}
@@ -152,9 +152,8 @@
   \item Total chunks $C = 100$
   \item Tax rate $r = 0.02$
   \item Pool's share of global hash rate $\frac{H}{\mathbb{H}} = 0.3$
-  \item Number of participants $P_p.length = 100$
 \end{itemize}
-The simulation ran for 100 rounds (i.e. 100 chances for the pool to earn the reward), in which the reward was received 31 times. Each participant started with a random amount of funds and 0 owned chunks while the pool started with all 100.
+The simulation ran for 100 rounds (i.e. 100 chances for the pool to earn the reward) with 100 participants, in which the reward was received 31 times. Each participant started with a random amount of funds and 0 owned chunks while the pool started with all 100.
 
 \paragraph{Collection} Each change to every participants balance was recorded along with timestamp, the number of blocks moved, and a reason. Additionally, general metrics on performance such as time take, number of transactions that occurred were recorded.
 
@@ -162,7 +161,7 @@ The simulation ran for 100 rounds (i.e. 100 chances for the pool to earn the rew
 
 \subsubsection{Analysis}
 
-\paragraph{} It can be seen from Figure \ref{figure:balances} below that the general trend of all participants is positive with significant jumps when a reward is earned. This indicates the tax rate or reward could be adjusted or more time is required to bring the system closer to equilibrium.
+\paragraph{} It can be seen from Figure \ref{figure:balances} below that the general trend of all participants is positive with jumps when a reward is earned. This indicates the tax rate or reward could be adjusted or more time is required to bring the system closer to equilibrium.
 
 \begin{figure}[H]
   \centering
@@ -171,7 +170,7 @@ The simulation ran for 100 rounds (i.e. 100 chances for the pool to earn the rew
   \includegraphics[width=\linewidth]{media/fig-balances}
 \end{figure}
 
-\paragraph{} From Figure \ref{figure:balances-pool} It can be seen that the pool's profits greatly outpace the growth of participants. This is primarily due to the pool possessing a large portion of the chunks which indicates the pricing of chunks or the decision making process for participants needs to be adjusted.
+\paragraph{} From Figure \ref{figure:balances-pool} It can be seen that the pool's profits greatly outpace the growth of participants. This is primarily due to the pool possessing a large portion of the chunks which indicates the pricing of chunks and the decision making process for participants needs to be adjusted.
 
 \begin{figure}[H]
   \centering
@@ -180,7 +179,7 @@ The simulation ran for 100 rounds (i.e. 100 chances for the pool to earn the rew
   \includegraphics[width=\linewidth]{media/fig-balances-pool}
 \end{figure}
 
-\paragraph{} The occurrence of rewards can be seen in Figure \ref{figure:rewards}. The rewards occur as expected, with 31 rewards from the 100 total chances.
+\paragraph{} The occurrence of rewards can be seen in Figure \ref{figure:rewards}. The rewards occur as expected, with 31 rewards from the 100 total chances since the pools compute share was 30\%.
 
 \begin{figure}[H]
   \centering
